@@ -1,0 +1,8 @@
+This is patch notes, the latest version of the program and innovations is written here :-)
+
+ | PATCH NOTE |
+  Version 1.1 (04.09.2019)
+   -English added
+   -Slightly optimized code
+  
+  Version 1.0
