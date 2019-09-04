@@ -5,4 +5,4 @@ This is patch notes, the latest version of the program and innovations is writte
    -English added
    -Slightly optimized code
   
-  Version 1.0
+  Version 1.0 (17.08.2019)
