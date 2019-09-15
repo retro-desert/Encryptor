@@ -19,13 +19,15 @@ python encryptor.py -d "C:\Users\user\folder"
 ```
 4.Then he will suggest installing the necessary modules. Just write Y and enter.
 
-5.Further, if everything is well established, then you can enjoy the script and support me.
+5.Further, if everything is well established, then you can enjoy the script .
+
+Please, support me)
 
 ETH
-0xe74c021d2ccd5439c235e6dd5adbf6f117cf49f8
+**0xe74c021d2ccd5439c235e6dd5adbf6f117cf49f8**
 
 DASH
-XmiMHnr7fBPvyAVYtqHUR3F2gxbA7qasJD
+**XmiMHnr7fBPvyAVYtqHUR3F2gxbA7qasJD**
 
 TRON
-TVH67yTgvFMTbLBxJqNzoRLN4LWjqquobB
+**TVH67yTgvFMTbLBxJqNzoRLN4LWjqquobB**
