@@ -4,7 +4,7 @@
 # PGP A1AF 5641
 
 ###########################################
-#             ENCRYPTOR v1.2              |
+#             ENCRYPTOR v1.3              |
 #                                         |
 # NEED MODULES:                           |
 # pycryptodomex                           |
