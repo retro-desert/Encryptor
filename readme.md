@@ -23,7 +23,9 @@ python encryptor.py -d "C:\Users\user\folder"
 
 ETH
 0xe74c021d2ccd5439c235e6dd5adbf6f117cf49f8
+
 DASH
 XmiMHnr7fBPvyAVYtqHUR3F2gxbA7qasJD
+
 TRON
 TVH67yTgvFMTbLBxJqNzoRLN4LWjqquobB
