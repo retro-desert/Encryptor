@@ -1,4 +1,4 @@
-#Encryptor
+# Encryptor
 
 This script is created so that everyone can encrypt files without much effort.
 
