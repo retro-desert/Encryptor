@@ -1,4 +1,4 @@
-<b>Encryptor</b>
+#Encryptor
 
 This script is created so that everyone can encrypt files without much effort.
 
@@ -14,8 +14,9 @@ Quck start:
 
 Example:
 
+```
 python encryptor.py -d "C:\Users\user\folder"
-
+```
 4.Then he will suggest installing the necessary modules. Just write Y and enter.
 
 5.Further, if everything is well established, then you can enjoy the script and support me.
