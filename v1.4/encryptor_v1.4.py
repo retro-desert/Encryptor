@@ -19,7 +19,6 @@ try:
  from Cryptodome.PublicKey import RSA
  from Cryptodome.Random import get_random_bytes
  from Cryptodome.Cipher import AES, PKCS1_OAEP
- from pycrypt import pycrypt
  print("\nModules were installed")
 except ImportError:
      print("\nThere were no such modules installed\n")
@@ -31,7 +30,6 @@ except ImportError:
              from Cryptodome.PublicKey import RSA
              from Cryptodome.Random import get_random_bytes
              from Cryptodome.Cipher import AES, PKCS1_OAEP
-             from pycrypt import pycrypt
              print("\nModules were installed")
          except ImportError:
              print("Modules not installed :(")
