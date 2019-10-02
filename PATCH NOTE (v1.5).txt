@@ -2,6 +2,9 @@ This is patch notes, the latest version of the program and innovations is writte
 
  | PATCH NOTE |
   
+  Version 1.5 (02.10.2019)
+   -Added GUI
+  
   Version 1.4 (23.09.2019)
    -!!! Added overwrite (Now, files will be overwritten before encryption)
    -Added function erase keys
