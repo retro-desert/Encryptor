@@ -26,6 +26,7 @@ python encryptor.py -d "C:\Users\user\folder"
 2.Check signature with Encryptor.exe.sig
 
 3.All files will be save in folder "encryptor's files"
+ !!!*Be sure to specify the working folder*
 
 
 Further, if everything is well established, then you can enjoy the script .
