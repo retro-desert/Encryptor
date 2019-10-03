@@ -131,10 +131,6 @@ class App(QtWidgets.QMainWindow, design.Ui_Encryptor):
         global directory
         directory = QtWidgets.QFileDialog.getExistingDirectory(self, "Choose folder")
         print(directory)
-        global directory_secretKey
-        global directory_publicKey
-        global listfile
-        global cleanfile
 
 
         if directory:
