@@ -2,6 +2,9 @@ This is patch notes, the latest version of the program and innovations is writte
 
  | PATCH NOTE |
   
+  Version 1.5.1 HOTFIX 1 (03.10.2019)
+   -Issue 1 solved (https://github.com/retro-desert/Encryptor/issues/1)
+  
   Version 1.5 (02.10.2019)
    -Added GUI
   
