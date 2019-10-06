@@ -2,9 +2,13 @@
 
 This script is created so that everyone can encrypt files without much effort.
 
-You can write data, generate keys, encrypt and decrypt data
+You can write data, generate keys, encrypt and decrypt data.
+**Made in Python 3**
 
 # Quck start(without GUI):
+
+(Linux)
+*Check if you have a **pip3** installed*
 
 1.Download encryptor.py
 
@@ -12,10 +16,14 @@ You can write data, generate keys, encrypt and decrypt data
 
 3.Open the command line and run the script with the argument --dir or -d and add the path to the folder with which you want to carry out actions
 
-Example:
+Example (windows):
 
 ```
 python encryptor.py -d "C:\Users\user\folder"
+```
+Example (linux):
+```
+python3 encryptor.py -d "/home/test"
 ```
 4.Then he will suggest installing the necessary modules. Just write Y and enter.
 
