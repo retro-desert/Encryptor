@@ -5,7 +5,7 @@ This script is created so that everyone can encrypt files without much effort.
 You can write data, generate keys, encrypt and decrypt data.
 **Made in Python 3**
 
-# Quck start(without GUI):
+## Quck start(without GUI):
 
 (Linux)
 *Check if you have a **pip3** installed*
@@ -27,7 +27,7 @@ python3 encryptor.py -d "/home/test"
 ```
 4.Then he will suggest installing the necessary modules. Just write Y and enter.
 
-# Quick start(with GUI):
+## Quick start(with GUI):
 
 1.Download Encryptor.exe (https://drive.google.com/open?id=1C_7Ep_kP-BfQory9NgZ26YiSPbOXNEKa)
 
