@@ -13,4 +13,4 @@ currently being supported with security updates.
 
 Use this section to tell people how to report a vulnerability.
 
-
+if you find a bug, then create discussions in the **"Issues"** section. If the bug is very serious, then email me at **support.alex2000@yandex.ru** marked **"Bug report"**
