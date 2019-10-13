@@ -10,9 +10,9 @@ You can write data, generate keys, encrypt and decrypt data.
 (Linux)
 *Check if you have a **pip3** installed*
 
-1.Download encryptor.py
+1.Download encryptor.py and twofish_encryption.py
 
-2.Check signature with encryptor.py.sig
+2.Check signatures with .sig or check hashes
 
 3.Open the command line and run the script with the argument --dir or -d and add the path to the folder with which you want to carry out actions
 
@@ -31,10 +31,11 @@ python3 encryptor.py -d "/home/test"
 
 1.Download Encryptor.exe (https://drive.google.com/open?id=1C_7Ep_kP-BfQory9NgZ26YiSPbOXNEKa)
 
-2.Check signature with Encryptor.exe.sig
+2.Check signature with Encryptor.exe.sig or check hashes
 
 3.All files will be save in folder "encryptor's files"
- !!!*Be sure to specify the working folder*
+ !!! 
+ *Be sure to specify the working folder*
 
 
 Further, if everything is well established, then you can enjoy the script .
