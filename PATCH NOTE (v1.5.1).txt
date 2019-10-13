@@ -2,6 +2,14 @@ This is patch notes, the latest version of the program and innovations is writte
 
  | PATCH NOTE |
   
+  Version 1.6 (13.10.2019)
+   -!!! Added twofish encryption (Thx https://github.com/bauhuasbadguy)
+   -Now the application does not crash
+   -Fixed a critical error from the previous version
+   -Now, if the keys are already there, then the application will clarify whether it is necessary to make new keys
+   -The built-in console normally processes messages
+   -Now you can also check hashes
+  
   Version 1.5.1 HOTFIX 1 (03.10.2019)
    -Issue 1 solved (https://github.com/retro-desert/Encryptor/issues/1)
   
