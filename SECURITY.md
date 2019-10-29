@@ -7,8 +7,8 @@ currently being supported with security updates.
 
 | Version | Supported          |
 | ------- | ------------------ |
-| 1.5.X   | :white_check_mark: |
-| 1.6.X   |                    |
+| 1.5.X   | :x:                |
+| 1.6.X   | :white_check_mark: |
 ## Reporting a Vulnerability
 
 Use this section to tell people how to report a vulnerability.
