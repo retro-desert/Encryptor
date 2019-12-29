@@ -10,7 +10,7 @@ You can write data, generate keys, encrypt and decrypt data.
 (Linux)
 *Check if you have a **pip3** installed*
 
-1.Download encryptor.py and twofish_encryption.py
+1.Download files
 
 2.Check signatures or check hashes
 
