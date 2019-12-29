@@ -10,11 +10,11 @@ You can write data, generate keys, encrypt and decrypt data.
 (Linux)
 *Check if you have a **pip3** installed*
 
-1.Download files
+**1.** Download files
 
-2.Check signatures or check hashes
+**2.** Check signatures or check hashes
 
-3.Open the command line and run the script with the argument --dir or -d and add the path to the folder with which you want to carry out actions
+**3.** Open the command line and run the script with the argument --dir or -d and add the path to the folder with which you want to carry out actions
 
 Example (windows):
 
@@ -25,13 +25,13 @@ Example (linux):
 ```
 python3 encryptor.py -d "/home/test"
 ```
-4.Then he will suggest installing the necessary modules. Just write Y and enter.
+**4.** Then he will suggest installing the necessary modules. Just write Y and enter.
 
 ## Quick start(with GUI):
 
-1.Download encryptor.zip (https://github.com/retro-desert/Encryptor/releases)
+**1.** Download encryptor.zip (https://github.com/retro-desert/Encryptor/releases)
 
-2.Check signature or check hashes
+**2.** Check signature or check hashes
 
 
 Further, if everything is well established, then you can enjoy the script .
