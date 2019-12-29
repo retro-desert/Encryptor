@@ -12,7 +12,7 @@ You can write data, generate keys, encrypt and decrypt data.
 
 1.Download encryptor.py and twofish_encryption.py
 
-2.Check signatures with .sig or check hashes
+2.Check signatures or check hashes
 
 3.Open the command line and run the script with the argument --dir or -d and add the path to the folder with which you want to carry out actions
 
@@ -29,13 +29,9 @@ python3 encryptor.py -d "/home/test"
 
 ## Quick start(with GUI):
 
-1.Download Encryptor.exe (https://drive.google.com/open?id=1C_7Ep_kP-BfQory9NgZ26YiSPbOXNEKa)
+1.Download encryptor.zip (https://github.com/retro-desert/Encryptor/releases)
 
-2.Check signature with Encryptor.exe.sig or check hashes
-
-3.All files will be save in folder "encryptor's files"
- !!! 
- *Be sure to specify the working folder*
+2.Check signature or check hashes
 
 
 Further, if everything is well established, then you can enjoy the script .
