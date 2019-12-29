@@ -2,6 +2,10 @@ This is patch notes, the latest version of the program and innovations is writte
 
  | PATCH NOTE |
   
+  Version 1.7 Special Edition (29.12.2019)
+  -Added check for updates
+  -Special Edition for New Year
+  
   Version 1.6.1 Special Edition (29.10.2019)
    -!!! Special Edition for Halloween
    -Error handling
