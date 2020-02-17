@@ -18,7 +18,7 @@ You can write data, generate keys, encrypt and decrypt data.
 
 **2.** Check hashes
 
-**3.** Open the command line and run the script with the argument --dir or -d and add the path to the folder with which you want to carry out actions
+**3.** Open the command line and run the script
 
 Example (windows):
 
