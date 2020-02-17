@@ -14,20 +14,22 @@ You can write data, generate keys, encrypt and decrypt data.
 (Linux)
 *Check if you have a **pip3** installed*
 
-**1.** Download files
+**1.** Download files (https://github.com/retro-desert/Encryptor/releases)
 
-**2.** Check signatures or check hashes
+**2.** Check hashes
 
 **3.** Open the command line and run the script with the argument --dir or -d and add the path to the folder with which you want to carry out actions
 
 Example (windows):
 
 ```
-python encryptor.py -d "C:\Users\user\folder"
+python encryptor-windows.py
+python encryptor-windows.py -d "C:\Users\user\folder"
 ```
 Example (linux):
 ```
-python3 encryptor.py -d "/home/test"
+python3 encryptor-linux.py
+python3 encryptor-linux.py -d "/home/test"
 ```
 **4.** Then he will suggest installing the necessary modules. Just write Y and enter.
 
