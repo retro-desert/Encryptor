@@ -1,6 +1,6 @@
 # Encryptor
 
-![Latest Stable Version](https://img.shields.io/badge/Version-1.7-success)
+![Latest Stable Version](https://img.shields.io/badge/Version-1.8-success)
 ![License](https://img.shields.io/badge/license-GPL%20v3%2B-informational)
 
 This script is created so that everyone can encrypt files without much effort.
