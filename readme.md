@@ -35,7 +35,7 @@ python3 encryptor-linux.py -d "/home/test"
 
 ## Quick start(with GUI):
 
-**1.** Download encryptor.zip (https://github.com/retro-desert/Encryptor/releases)
+**1.** Download encryptor-WINDOWS-GUI.zip (https://github.com/retro-desert/Encryptor/releases)
 
 **2.** Check signature or check hashes
 
