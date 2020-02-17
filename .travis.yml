@@ -1,3 +1,6 @@
 language: python
+  install:
+    - pip install pycryptodomex
+    - pip install colorama
   script:
     - pytest
