@@ -6,4 +6,4 @@ install:
   - pip install pycryptodome
   - pip install colorama
 script:
-  - python retro-desert/Encryptor/v1.8/without GUI/encryptor-linux.py
+  - python retro-desert/Encryptor/v1.8/without\ GUI/encryptor-linux.py
