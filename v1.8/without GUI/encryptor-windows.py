@@ -10,7 +10,7 @@ __email__ = "nethertrooper@tuta.io"
 #           ENCRYPTOR v1.8                #
 ###########################################
 
-import os, sys, time, pickle, random, tempfile, threading, requests
+import os, sys, time, pickle, random, tempfile, threading
 from datetime import datetime
 import twofish_encryption
 
@@ -25,6 +25,7 @@ except ImportError:
      print("\nThere were no such modules installed\n")
      o = input("Are you want to install modules?Y/N ")
      if o == "Y":
+        os.system("pip install requests")
         os.system("pip install pycryptodome")
         os.system("pip install colorama")
         try:
