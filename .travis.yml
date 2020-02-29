@@ -7,5 +7,4 @@ install:
   - pip install colorama
   - pip install requests
 script:
-  - ls -la
   - python "v1.8/without GUI/encryptor-linux.py"
