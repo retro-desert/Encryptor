@@ -7,4 +7,4 @@ install:
   - pip install colorama
 script:
   - ls -la
-  - python "retro-desert/Encryptor/v1.8/without GUI/encryptor-linux.py"
+  - python "v1.8/without GUI/encryptor-linux.py"
