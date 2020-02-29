@@ -6,4 +6,4 @@ install:
   - pip install pycryptodome
   - pip install colorama
 script:
-  - pytest
+  - python v1.8/without GUI/encryptor-linux.py
