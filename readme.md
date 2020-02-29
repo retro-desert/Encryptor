@@ -3,6 +3,7 @@
 ![Latest Stable Version](https://img.shields.io/github/v/release/retro-desert/Encryptor?color=success)
 ![License](https://img.shields.io/github/license/retro-desert/Encryptor?color=informational)
 ![Activity](https://img.shields.io/github/commit-activity/m/retro-desert/Encryptor?color=yellow)
+[![Build Status](https://travis-ci.org/retro-desert/Encryptor.svg?branch=master)](https://travis-ci.org/retro-desert/Encryptor)
 
 This script is created so that everyone can encrypt files without much effort.
 
