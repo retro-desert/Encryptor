@@ -7,4 +7,5 @@ install:
   - pip install colorama
   - pip install requests
 script:
-  - python v1.9/encryptor_cmd.py
+  - mkdir ~/testing
+  - python encryptor_CMD.py --test -P ~/testing
