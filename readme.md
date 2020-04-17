@@ -1,43 +1,34 @@
 # Encryptor
 
-![Latest Stable Version](https://img.shields.io/badge/Version-1.7-success)
-![License](https://img.shields.io/badge/license-GPL%20v3%2B-informational)
+![Latest Stable Version](https://img.shields.io/github/v/release/retro-desert/Encryptor?color=success)
+![License](https://img.shields.io/github/license/retro-desert/Encryptor?color=informational)
+![Activity](https://img.shields.io/github/commit-activity/m/retro-desert/Encryptor?color=yellow)
+[![CII Best 
+Practices](https://bestpractices.coreinfrastructure.org/projects/3750/badge)](https://bestpractices.coreinfrastructure.org/projects/3750)
+[![Build Status](https://travis-ci.org/retro-desert/Encryptor.svg?branch=master)](https://travis-ci.org/retro-desert/Encryptor)
 
-This script is created so that everyone can encrypt files without much effort.
+This script is created so that everyone can encrypt files.
 
-You can write data, generate keys, encrypt and decrypt data.
 **Made in Python 3**
 
-## Quck start(without GUI):
-
-(Linux)
-*Check if you have a **pip3** installed*
-
-**1.** Download files
-
-**2.** Check signatures or check hashes
-
-**3.** Open the command line and run the script with the argument --dir or -d and add the path to the folder with which you want to carry out actions
-
-Example (windows):
-
-```
-python encryptor.py -d "C:\Users\user\folder"
-```
-Example (linux):
-```
-python3 encryptor.py -d "/home/test"
-```
-**4.** Then he will suggest installing the necessary modules. Just write Y and enter.
-
-## Quick start(with GUI):
+## Quck start(windows):
 
 **1.** Download encryptor.zip (https://github.com/retro-desert/Encryptor/releases)
 
-**2.** Check signature or check hashes
+**2.** Run encryptor.**exe**
 
+## Terminal/CMD:
 
-Further, if everything is well established, then you can enjoy the script .
+**1.** Download encryptor_CMD.zip(https://github.com/retro-desert/Encryptor/releases)
+
+**2.** Open the command line and run the script
+
+Example:
+
+```
+python3 encryptor_CMD.py
+python3 encryptor_CMD.py -P /home/admin/test
+```
 
 Please, support me)
 
