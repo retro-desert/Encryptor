@@ -1,63 +1,57 @@
 __author__ = "Retro Desert " \
              "github.com/retro-desert"
 __license__ = "(c) 2020 GNU General Public License v3.0"
-__version__ = "1.9"
+__version__ = "1.910"
 __maintainer__ = "Retro Desert"
 __email__ = "nethertrooper@tuta.io"
 # PGP: A1AF 5641
 
 ###########################################
-#           ENCRYPTOR v1.9                #
+#           ENCRYPTOR v1.910              #
 ###########################################
 
 import os, sys, pickle, random, tempfile, threading, argparse
 from datetime import datetime
 import twofish_encryption
 from sys import platform
+if platform == "linux" or platform == "linux2":
+    platform_var = "lin"
+elif platform == "win32":
+    platform_var = "win"
 
-try:
-    from Cryptodome.PublicKey import RSA
-    from Cryptodome.Random import get_random_bytes
-    from Cryptodome.Cipher import AES, PKCS1_OAEP
-    import requests
-    from colorama import Style, Back, Fore
-    from colorama import init
-    import colorama
-except ImportError:
-    print("\n[-]There were no such modules installed\n")
-    o = input("Are you want to install modules?Y/N ")
-    if o == "Y":
-        if platform == "linux" or platform == "linux2":
-            os.system("pip3 install requests")
-            os.system("pip3 install pycryptodomex")
-            os.system("pip3 install colorama")
+while True:
+    try:
+        from Cryptodome.PublicKey import RSA
+        from Cryptodome.Random import get_random_bytes
+        from Cryptodome.Cipher import AES, PKCS1_OAEP
+        import requests
+        from colorama import Style, Back, Fore
+        from colorama import init
+        import colorama
+        break
+    except ImportError:
+        print("\n[-]There were no such modules installed\n")
+        o = input("Are you want to install modules?Y/N ")
+        if o == "Y":
+            if platform_var == "lin":
+                os.system("pip3 install requests")
+                os.system("pip3 install pycryptodomex")
+                os.system("pip3 install colorama")
 
-        elif platform == "win32":
-            os.system("pip install requests")
-            os.system("pip install pycryptodome")
-            os.system("pip install colorama")
-        try:
+            elif platform_var == "win":
+                os.system("pip install requests")
+                os.system("pip install pycryptodome")
+                os.system("pip install colorama")
+            continue
 
-            from Cryptodome.PublicKey import RSA
-            from Cryptodome.Random import get_random_bytes
-            from Cryptodome.Cipher import AES, PKCS1_OAEP
-            import requests
-            from colorama import Style, Back, Fore
-            from colorama import init
-            import colorama
-            print("\n[✓]Modules were installed")
-        except ImportError:
-            print("[-]Modules not installed :(")
-            sys.exit(1)
-
-    if o == "N":
-         sys.exit(1)
+        if o == "N":
+             sys.exit(1)
 
 directory = ""
 args = ""
 colorama.init()
 init(autoreset=True)
-print(Style.BRIGHT + Fore.CYAN + "\nENCRYPTOR v1.9")
+print(Style.BRIGHT + Fore.CYAN + "\nENCRYPTOR v1.910")
 
 def arguments():
  global directory
@@ -65,7 +59,7 @@ def arguments():
 
  parser = argparse.ArgumentParser(description=
                                     "Example: "
-                                    "python encryptor_windows.py -P "
+                                    "python encryptor_CMD.py -P "
                                     "/home/admin/test"
                                     " or"
                                     " 'C:\\Users\\admin\\test'")
@@ -118,13 +112,13 @@ arguments()
 
 script_directory = os.path.abspath(os.curdir)
 cleanfile = directory
-if platform == "linux" or platform == "linux2":
+if platform_var == "lin":
     directory_secretKey = script_directory + "//private.pem"
     directory_publicKey = script_directory + "//receiver.pem"
     listfile = directory + "//data.data"
     encrypt_data = script_directory + "//encrypt.data"
 
-elif platform == "win32":
+elif platform_var == "win":
     directory_secretKey = script_directory + "\\private.pem"
     directory_publicKey = script_directory + "\\receiver.pem"
     listfile = directory + "\\data.data"
@@ -147,7 +141,7 @@ def book(test=0, s="0"):
 def generate():
 
     def writer():
-        print("[+]It may take a long time.\n"
+        print("[*]It may take a long time.\n"
               "Generating 4096 bit key...")
 
     def generate_keys():
@@ -155,7 +149,7 @@ def generate():
         private_key = key.export_key()
         file_out = open("private.pem", "wb")
         file_out.write(private_key)
-        #print(private_key)
+        # print(private_key)
         print(Style.BRIGHT + Fore.GREEN + "\n[✓]Private key created!")
 
         public_key = key.publickey().export_key()
@@ -185,8 +179,8 @@ def generate():
 
     while True:
         try:
-            if os.path.getsize(directory_secretKey) > 1 and os.path.getsize(directory_publicKey) > 1:
-                print("[+]Private and public keys are here")
+            if os.path.getsize(directory_secretKey) and os.path.getsize(directory_publicKey):
+                print("[*]Private and public keys are here")
                 print(Style.BRIGHT + "Do you want to make new keys? ",
                       Style.BRIGHT + Fore.GREEN + "Y",
                       "/", Style.BRIGHT + Fore.RED + "N")
@@ -203,12 +197,10 @@ def generate():
 
 def erase(size, dir1=script_directory):
     for i in range(1, 36):
-         more_size = random.randint(100, 10000)
-         size = more_size
-         x = os.urandom(size)
+         size = random.randint(100, 10000)
          random_filename = tempfile.mktemp(dir=dir1)
          c1 = open(random_filename, "wb")
-         c1.write(x)
+         c1.write(os.urandom(size))
          c1.close()
          os.remove(random_filename)
 
@@ -245,7 +237,7 @@ def twofish_encrypt(test=0, op="", d=""):
         password = ""
         for i in range(32):
             password += random.choice(chars)
-        print(Style.BRIGHT + "[+]Password:\n", Style.BRIGHT + Fore.GREEN + password)
+        print(Style.BRIGHT + "[*]Password:\n", Style.BRIGHT + Fore.GREEN + password)
         twofish_encryption.key = password
     else:
         twofish_encryption.key = d
@@ -285,11 +277,11 @@ def update(s=1):
             if s == 1:
                 print(Style.BRIGHT + Fore.GREEN + "\nVersion is up to date!")
         else:
-            print(Style.BRIGHT + "\n[+]New version", Style.BRIGHT + Fore.GREEN + "available!",
+            print(Style.BRIGHT + "\n[*]New version", Style.BRIGHT + Fore.GREEN + "available!",
                   "\nDownload:", Style.BRIGHT + "https://github.com/retro-desert/Encryptor/releases")
             input("Press ENTER")
     except OSError:
-        print(Style.BRIGHT + Fore.RED + "Error:", Style.BRIGHT + "Internet is disabled!")
+        print(Style.BRIGHT + Fore.RED + "[-]Error:", Style.BRIGHT + "Internet is disabled!")
 
 
 def crypt2():

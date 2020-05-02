@@ -2,7 +2,10 @@ This is patch notes, the latest version of the program and innovations is writte
 
  | PATCH NOTE |
   
-  Version 1.9 (xx.xx.2020)
+  Version 1.910 (02.05.2020)
+   -Slightly optimized code
+
+  Version 1.9 (17.04.2020)
    -Arguments are reworked
    -Added tests
    -The console script is now cross-platform

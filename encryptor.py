@@ -1,16 +1,16 @@
 __author__ = "Retro Desert " \
              "github.com/retro-desert"
 __license__ = "(c) 2020 GNU General Public License v3.0"
-__version__ = "1.9"
+__version__ = "1.910"
 __maintainer__ = "Retro Desert"
 __email__ = "nethertrooper@tuta.io"
 # PGP: A1AF 5641
 
 ###########################################
-#           ENCRYPTOR v1.9                #
+#           ENCRYPTOR v1.910              #
 ###########################################
 
-print("\nENCRYPTOR v1.9")
+print("\nENCRYPTOR v1.910")
 
 import os, sys, pickle, random, tempfile, threading, webbrowser, requests
 
@@ -94,7 +94,7 @@ class App(QtWidgets.QMainWindow, design.Ui_Encryptor):
         self.pushButton_8.clicked.connect(lambda: self.buttonClicked7())
         self.pushButton_9.clicked.connect(lambda: self.buttonClicked8())
         self.setWindowIcon(PyQt5.QtGui.QIcon(icon))
-        print("ENCRYPTOR v1.9\n")
+        print("ENCRYPTOR v1.910\n")
         self.buttonClicked8(s=0)
 
     def append_log(self, text, severity):
@@ -137,7 +137,7 @@ class App(QtWidgets.QMainWindow, design.Ui_Encryptor):
     def buttonClicked1(self):
 
         def writer():
-            print("[+]It may take a long time.\n"
+            print("[*]It may take a long time.\n"
                   "Generating 4096 bit key...")
 
         def generate_keys():
@@ -179,8 +179,8 @@ class App(QtWidgets.QMainWindow, design.Ui_Encryptor):
 
         while True:
             try:
-                if os.path.getsize(directory_secretKey) > 1 and os.path.getsize(directory_publicKey) > 1:
-                    print("[+]Private and public keys are here")
+                if os.path.getsize(directory_secretKey) and os.path.getsize(directory_publicKey):
+                    print("[*]Private and public keys are here")
                     text, \
                     g = QtWidgets.QInputDialog.getText(self, "Input Dialog",
                                                        "Do you want to make new keys? Y/N:")
@@ -253,7 +253,7 @@ class App(QtWidgets.QMainWindow, design.Ui_Encryptor):
                     password = ""
                     for i in range(32):
                         password += random.choice(chars)
-                    print("[+]Password:", password)
+                    print("[*]Password:", password)
                     twofish_encryption.key = password
                 else:
                     twofish_encryption.key = text
@@ -295,7 +295,7 @@ class App(QtWidgets.QMainWindow, design.Ui_Encryptor):
 
             if server_version <= __version__:
                 if s == 1:
-                 print("[+]Version is up to date!")
+                 print("[*]Version is up to date!")
             else:
                 msgBox = PyQt5.QtWidgets.QMessageBox()
                 msgBox.setIcon(PyQt5.QtWidgets.QMessageBox.Information)
@@ -318,12 +318,10 @@ class App(QtWidgets.QMainWindow, design.Ui_Encryptor):
 def erase(size, dir1=script_directory):
 
         for i in range(1, 36):
-            more_size = random.randint(100, 10000)
-            size = more_size
-            x = os.urandom(size)
+            size = random.randint(100, 10000)
             random_filename = tempfile.mktemp(dir=dir1)
             c1 = open(random_filename, "wb")
-            c1.write(x)
+            c1.write(os.urandom(size))
             c1.close()
             os.remove(random_filename)
 
