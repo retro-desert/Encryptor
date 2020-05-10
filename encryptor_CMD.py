@@ -1,19 +1,28 @@
 __author__ = "Retro Desert " \
              "github.com/retro-desert"
 __license__ = "(c) 2020 GNU General Public License v3.0"
-__version__ = "1.910"
+__version__ = "1.915"
 __maintainer__ = "Retro Desert"
-__email__ = "nethertrooper@tuta.io"
-# PGP: A1AF 5641
+__email__ = "iljaaz@yandex.ru"
+
+# PGP: 502b 51e0
 
 ###########################################
-#           ENCRYPTOR v1.910              #
+#           ENCRYPTOR v1.915              #
 ###########################################
 
-import os, sys, pickle, random, tempfile, threading, argparse
+import argparse
+import os
+import pickle
+import random
+import sys
+import tempfile
+import threading
 from datetime import datetime
-import twofish_encryption
 from sys import platform
+
+import twofish_encryption
+
 if platform == "linux" or platform == "linux2":
     platform_var = "lin"
 elif platform == "win32":
@@ -28,6 +37,7 @@ while True:
         from colorama import Style, Back, Fore
         from colorama import init
         import colorama
+
         break
     except ImportError:
         print("\n[-]There were no such modules installed\n")
@@ -45,68 +55,70 @@ while True:
             continue
 
         if o == "N":
-             sys.exit(1)
+            sys.exit(1)
 
 directory = ""
 args = ""
 colorama.init()
 init(autoreset=True)
-print(Style.BRIGHT + Fore.CYAN + "\nENCRYPTOR v1.910")
+print(Style.BRIGHT + Fore.CYAN + "\nENCRYPTOR v1.915")
+
 
 def arguments():
- global directory
- global args
+    global directory
+    global args
 
- parser = argparse.ArgumentParser(description=
-                                    "Example: "
-                                    "python encryptor_CMD.py -P "
-                                    "/home/admin/test"
-                                    " or"
-                                    " 'C:\\Users\\admin\\test'")
+    parser = argparse.ArgumentParser(description=
+                                     "Example: "
+                                     "python encryptor_CMD.py -P "
+                                     "/home/admin/test"
+                                     " or"
+                                     " 'C:\\Users\\admin\\test'")
 
- parser.add_argument(
-     "-P", "--path",
-     type=str,
-     help="Path to files"
- )
+    parser.add_argument(
+        "-P", "--path",
+        type=str,
+        help="Path to files"
+    )
 
- parser.add_argument(
-     "-C", "--crypt",
-     action="store_true",
-     help="Crypt Files"
- )
+    parser.add_argument(
+        "-C", "--crypt",
+        action="store_true",
+        help="Crypt Files"
+    )
 
- parser.add_argument(
-     "-D", "--decrypt",
-     action="store_true",
-     help="Decrypt Files"
- )
+    parser.add_argument(
+        "-D", "--decrypt",
+        action="store_true",
+        help="Decrypt Files"
+    )
 
- parser.add_argument(
-     "-TE", "--twofish_enc",
-     action="store_true",
-     help="Twofish encryption"
- )
+    parser.add_argument(
+        "-TE", "--twofish_enc",
+        action="store_true",
+        help="Twofish encryption"
+    )
 
- parser.add_argument(
-     "-TD", "--twofish_dec",
-     action="store_true",
-     help="Twofish decryption"
- )
+    parser.add_argument(
+        "-TD", "--twofish_dec",
+        action="store_true",
+        help="Twofish decryption"
+    )
 
- parser.add_argument(
-     "--test",
-     action="store_true",
-     help="Run dev test"
- )
+    parser.add_argument(
+        "--test",
+        action="store_true",
+        help="Run dev test"
+    )
 
- args = parser.parse_args()
+    args = parser.parse_args()
 
- if args.path:
-     directory = args.path
-     print("Directory: ", directory)
- else:
-     directory = input("[+]Input work path: ")
+    if args.path:
+        directory = args.path
+        print("Directory: ", directory)
+    else:
+        directory = input("[+]Input work path: ")
+
 
 arguments()
 
@@ -139,7 +151,6 @@ def book(test=0, s="0"):
 
 
 def generate():
-
     def writer():
         print("[*]It may take a long time.\n"
               "Generating 4096 bit key...")
@@ -197,12 +208,12 @@ def generate():
 
 def erase(size, dir1=script_directory):
     for i in range(1, 36):
-         size = random.randint(100, 10000)
-         random_filename = tempfile.mktemp(dir=dir1)
-         c1 = open(random_filename, "wb")
-         c1.write(os.urandom(size))
-         c1.close()
-         os.remove(random_filename)
+        size = random.randint(100, 10000)
+        random_filename = tempfile.mktemp(dir=dir1)
+        c1 = open(random_filename, "wb")
+        c1.write(os.urandom(size))
+        c1.close()
+        os.remove(random_filename)
 
 
 def delete_keys():
@@ -229,9 +240,9 @@ def twofish_encrypt(test=0, op="", d=""):
     if d == "":
 
         chars = \
-            "+-/]\*;:|!&$(#?={~@`<>"\
-            "_)}[abcdefghijklnopqrs"\
-            "tuvwxyzABCDEFGHIJKLMNO"\
+            "+-/]\*;:|!&$(#?={~@`<>" \
+            "_)}[abcdefghijklnopqrs" \
+            "tuvwxyzABCDEFGHIJKLMNO" \
             "PQRSTUVWXYZ1234567890"
 
         password = ""
@@ -278,111 +289,113 @@ def update(s=1):
                 print(Style.BRIGHT + Fore.GREEN + "\nVersion is up to date!")
         else:
             print(Style.BRIGHT + "\n[*]New version", Style.BRIGHT + Fore.GREEN + "available!",
-                  "\nDownload:", Style.BRIGHT + "https://github.com/retro-desert/Encryptor/releases")
+                  "\nDownload:", Style.BRIGHT +
+                  "https://github.com/retro-desert/Encryptor/releases")
             input("Press ENTER")
     except OSError:
         print(Style.BRIGHT + Fore.RED + "[-]Error:", Style.BRIGHT + "Internet is disabled!")
 
 
 def crypt2():
-        startTime = datetime.now()
-        Crypt.walk(directory)
-        endTime = datetime.now()
-        print("Time: ", endTime - startTime)
-        print("---------------------------------------------------------------")
+    startTime = datetime.now()
+    Crypt.walk(directory)
+    endTime = datetime.now()
+    print("Time: ", endTime - startTime)
+    print("---------------------------------------------------------------")
 
 
 def decrypt2():
-        startTime = datetime.now()
-        Decrypt.walk(directory)
-        endTime = datetime.now()
-        print("Time: ", endTime - startTime)
-        print("---------------------------------------------------------------")
+    startTime = datetime.now()
+    Decrypt.walk(directory)
+    endTime = datetime.now()
+    print("Time: ", endTime - startTime)
+    print("---------------------------------------------------------------")
+
 
 def testing():
-        update()
-        book(test=1, s="lol1234-_-/testing")
-        generate()
-        crypt2()
-        decrypt2()
-        twofish_encrypt(test=1, op="lol1234-_-/testing", d="1234password_test")
-        twofish_decrypt(test=1, vv="1234password_test")
-        delete_keys()
+    update()
+    book(test=1, s="lol1234-_-/testing")
+    generate()
+    crypt2()
+    decrypt2()
+    twofish_encrypt(test=1, op="lol1234-_-/testing", d="1234password_test")
+    twofish_decrypt(test=1, vv="1234password_test")
+    delete_keys()
 
 
 class Crypt:
- def crypt1(file):
-    try:
-        f = open(file, "rb")
-        data = f.read()
-        f.close()
+    def crypt1(file):
+        try:
+            f = open(file, "rb")
+            data = f.read()
+            f.close()
 
-        file_out = open(str(file) + ".bin", "wb")
+            file_out = open(str(file) + ".bin", "wb")
 
-        recipient_key = RSA.import_key(open(directory_publicKey).read())
-        session_key = get_random_bytes(16)
+            recipient_key = RSA.import_key(open(directory_publicKey).read())
+            session_key = get_random_bytes(16)
 
-        cipher_rsa = PKCS1_OAEP.new(recipient_key)
-        enc_session_key = cipher_rsa.encrypt(session_key)
+            cipher_rsa = PKCS1_OAEP.new(recipient_key)
+            enc_session_key = cipher_rsa.encrypt(session_key)
 
-        cipher_aes = AES.new(session_key, AES.MODE_EAX)
-        ciphertext, tag = cipher_aes.encrypt_and_digest(data)
+            cipher_aes = AES.new(session_key, AES.MODE_EAX)
+            ciphertext, tag = cipher_aes.encrypt_and_digest(data)
 
-        [file_out.write(x) for x in (enc_session_key, cipher_aes.nonce, tag, ciphertext)]
-        file_out.close()
-        print("[✓]" + file + Style.BRIGHT + Fore.GREEN + " ENCRYPT!")
-        folder_size = os.path.getsize(file)
-        os.remove(file)
+            [file_out.write(x) for x in (enc_session_key, cipher_aes.nonce, tag, ciphertext)]
+            file_out.close()
+            print("[✓]" + file + Style.BRIGHT + Fore.GREEN + " ENCRYPT!")
+            folder_size = os.path.getsize(file)
+            os.remove(file)
 
-        dir2 = cleanfile
-        erase(+folder_size, dir2)
+            dir2 = cleanfile
+            erase(+folder_size, dir2)
 
-    except FileNotFoundError:
-        print(Style.BRIGHT + Fore.RED + "[-]Error:", Style.BRIGHT + "Generate keys first")
+        except FileNotFoundError:
+            print(Style.BRIGHT + Fore.RED + "[-]Error:", Style.BRIGHT + "Generate keys first")
 
-
- def walk(dir):
-    for name in os.listdir(dir):
-        path = os.path.join(dir, name)
-        if os.path.isfile(path):
-            Crypt.crypt1(path)
-        else:
-            walk(path)
+    def walk(dir):
+        for name in os.listdir(dir):
+            path = os.path.join(dir, name)
+            if os.path.isfile(path):
+                Crypt.crypt1(path)
+            else:
+                walk(path)
 
 
 class Decrypt:
- def decrypt1(file):
-    try:
-        file_in = open(file, "rb")
-        file_out = open(str(file[:-4]), "wb")
-        private_key = RSA.import_key(open(directory_secretKey).read())
+    def decrypt1(file):
+        try:
+            file_in = open(file, "rb")
+            file_out = open(str(file[:-4]), "wb")
+            private_key = RSA.import_key(open(directory_secretKey).read())
 
-        enc_session_key, nonce, tag, ciphertext = \
-            [file_in.read(x) for x in (private_key.size_in_bytes(), 16, 16, -1)]
+            enc_session_key, nonce, tag, ciphertext = \
+                [file_in.read(x) for x in (private_key.size_in_bytes(), 16, 16, -1)]
 
-        cipher_rsa = PKCS1_OAEP.new(private_key)
-        session_key = cipher_rsa.decrypt(enc_session_key)
+            cipher_rsa = PKCS1_OAEP.new(private_key)
+            session_key = cipher_rsa.decrypt(enc_session_key)
 
-        cipher_aes = AES.new(session_key, AES.MODE_EAX, nonce)
-        data = cipher_aes.decrypt_and_verify(ciphertext, tag)
-        file_out.write(data)
-        print("[✓]" + file + Style.BRIGHT + Fore.GREEN + " DECRYPT!")
-        file_in.close()
-        file_out.close()
-        os.remove(file)
+            cipher_aes = AES.new(session_key, AES.MODE_EAX, nonce)
+            data = cipher_aes.decrypt_and_verify(ciphertext, tag)
+            file_out.write(data)
+            print("[✓]" + file + Style.BRIGHT + Fore.GREEN + " DECRYPT!")
+            file_in.close()
+            file_out.close()
+            os.remove(file)
 
-    except FileNotFoundError:
-        print(Style.BRIGHT + Fore.RED + "[-]Error:", Style.BRIGHT + "File without extension / Invalid keys")
-    except ValueError:
-        print(Style.BRIGHT + Fore.RED + "[-]Error:", Style.BRIGHT + "File decrypted or corrupt")
+        except FileNotFoundError:
+            print(Style.BRIGHT + Fore.RED + "[-]Error:", Style.BRIGHT + "File without extension / Invalid keys")
+        except ValueError:
+            print(Style.BRIGHT + Fore.RED + "[-]Error:", Style.BRIGHT + "File decrypted or corrupt")
 
- def walk(dir):
-    for name in os.listdir(dir):
-        path = os.path.join(dir, name)
-        if os.path.isfile(path):
-            Decrypt.decrypt1(path)
-        else:
-            walk(path)
+    def walk(dir):
+        for name in os.listdir(dir):
+            path = os.path.join(dir, name)
+            if os.path.isfile(path):
+                Decrypt.decrypt1(path)
+            else:
+                walk(path)
+
 
 if args.crypt:
     crypt2()
@@ -408,43 +421,43 @@ if not args.test:
         print(Style.BRIGHT + Fore.YELLOW +
               "----------------\n0) Check updates\n----------------")
         print(Style.BRIGHT +
-                "1) Write data\n"
-                "2) Generate keys\n"
-                "3) Erase keys\n"
-                "4) Encrypt data\n"
-                "5) Decrypt data\n"
-                "6) Twofish encrypt\n"
-                "7) Twofish decrypt")
+              "1) Write data\n"
+              "2) Generate keys\n"
+              "3) Erase keys\n"
+              "4) Encrypt data\n"
+              "5) Decrypt data\n"
+              "6) Twofish encrypt\n"
+              "7) Twofish decrypt")
         print(Style.BRIGHT + Fore.RED + "8) EXIT\n")
 
         b = input(">> ")
 
-        if b ==("0"):
+        if b == "0":
             update()
 
-        if b ==("1"):
+        if b == "1":
             book()
 
-        if b ==("2"):
+        if b == "2":
             generate()
 
-        if b ==("3"):
+        if b == "3":
             delete_keys()
 
-        if b ==("4"):
+        if b == "4":
             crypt2()
 
-        if b ==("5"):
+        if b == "5":
             decrypt2()
 
-        if b == ("6"):
+        if b == "6":
             twofish_encrypt()
 
-        if b ==("7"):
+        if b == "7":
             twofish_decrypt()
 
-        if b ==("8"):
+        if b == "8":
             break
 
 else:
-        testing()
+    testing()

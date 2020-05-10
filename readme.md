@@ -40,3 +40,19 @@ DASH
 
 TRON
 **TVH67yTgvFMTbLBxJqNzoRLN4LWjqquobB**
+
+# Security Policy
+
+## Supported Versions
+
+| Version | Supported          |
+| ------- | ------------------ |
+| 1.9X    | :white_check_mark: |
+| 1.8.X   | :x: 			   |
+| 1.7.X   | :x:                |
+| 1.6.X   | :x:                |
+| 1.5.X   | :x:                |
+
+## Reporting a Vulnerability
+
+If you find a bug, then create discussions in the **"Issues"** section. If the bug is very serious, then email me at **iljaaz@yandex.ru** **PGP: 502b 51e0** marked **"Bug report"**

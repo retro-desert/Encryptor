@@ -1,6 +1,7 @@
 # twofish implimentation
 import math
 
+
 # multiply 2 2d matricies together
 # I could'nt be buggered adding exceptions so
 # make sure your matricies are valid if for some
@@ -827,9 +828,12 @@ key = 'VkYp3s6v9y$B&E(H+MbQeThWmZq4t7w!'
 N = 128
 rounds = 16
 
+
 def start():
- global K, S
- [K, S] = gen_keys(key, N, rounds)
+    global K, S
+    [K, S] = gen_keys(key, N, rounds)
+
+
 # start()
 
 # there's a wierd bug where if the number of characters is a certan amount a random
@@ -839,16 +843,18 @@ test = 'Lol)'
 
 
 def encrypt():
- global Cypher_text, num_C
- [num_C, Cypher_text] = encrypt_message(test, S, K)
+    global Cypher_text, num_C
+    [num_C, Cypher_text] = encrypt_message(test, S, K)
+
+
 # encrypt()
 
 # print(Cypher_text)
 
 def decrypt():
- global plain_text
- message_num = text2num(test)
- plain_text = decrypt_message(message_num, S, K, rounds=16)
+    global plain_text
+    message_num = text2num(test)
+    plain_text = decrypt_message(message_num, S, K, rounds=16)
 # decrypt()
 
 # print(plain_text)
