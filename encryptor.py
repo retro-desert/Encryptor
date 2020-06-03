@@ -1,16 +1,15 @@
 __author__ = "Retro Desert " \
              "github.com/retro-desert"
 __license__ = "(c) 2020 GNU General Public License v3.0"
-__version__ = "1.915"
+__version__ = "1.920"
 __maintainer__ = "Retro Desert"
 __email__ = "iljaaz@yandex.ru"
+
 # PGP: 502b 51e0
 
 ###########################################
-#           ENCRYPTOR v1.915              #
+#           ENCRYPTOR v1.920              #
 ###########################################
-
-print("\nENCRYPTOR v1.915")
 
 import os
 import pickle
@@ -26,7 +25,6 @@ import PyQt5.QtGui
 from Cryptodome.Cipher import AES, PKCS1_OAEP
 from Cryptodome.PublicKey import RSA
 from Cryptodome.Random import get_random_bytes
-from PIL import Image
 from PyQt5 import QtWidgets
 from PyQt5.QtCore import QObject
 from PyQt5.QtCore import pyqtSignal as Signal
@@ -34,13 +32,16 @@ from PyQt5.QtCore import pyqtSignal as Signal
 import design
 import twofish_encryption
 
-image1 = Image.open("logo.ico")
-image2 = Image.open("image.jpg")
-
 script_directory = os.path.abspath(os.curdir)
-icon = script_directory + "\\logo.ico"
+
+try:
+    image = sys._MEIPASS + "\\image.jpg"
+    icon = sys._MEIPASS + "\\logo.ico"
+except AttributeError:
+    icon = script_directory + "\\logo.ico"
+    image = script_directory + "\\image.jpg"
+
 directory = ""
-image = script_directory + "\\image.jpg"
 directory_secretKey = script_directory + "\\private.pem"
 directory_publicKey = script_directory + "\\receiver.pem"
 
@@ -102,8 +103,16 @@ class App(QtWidgets.QMainWindow, design.Ui_Encryptor):
         self.pushButton_8.clicked.connect(lambda: self.buttonClicked7())
         self.pushButton_9.clicked.connect(lambda: self.buttonClicked8())
         self.setWindowIcon(PyQt5.QtGui.QIcon(icon))
-        print("ENCRYPTOR v1.915\n")
-        self.buttonClicked8(s=0)
+        print("ENCRYPTOR {}\n".format(__version__))
+        self.buttonClicked8(status=0)
+
+    def resizeEvent(self, event):
+        palette = PyQt5.QtGui.QPalette()
+        img = PyQt5.QtGui.QImage(image)
+        scaled = img.scaled(self.size(), PyQt5.QtCore.Qt.KeepAspectRatioByExpanding,
+                            transformMode=PyQt5.QtCore.Qt.SmoothTransformation)
+        palette.setBrush(PyQt5.QtGui.QPalette.Window, PyQt5.QtGui.QBrush(scaled))
+        self.setPalette(palette)
 
     def append_log(self, text, severity):
 
@@ -117,8 +126,8 @@ class App(QtWidgets.QMainWindow, design.Ui_Encryptor):
         self.listWidget.clear()
         directory = QtWidgets.QFileDialog.getExistingDirectory(self, "Choose folder")
         print(directory)
-        global listfile, cleanfile
-        listfile = directory + "\\data.data"
+        global bookfile, cleanfile
+        bookfile = directory + "\\data.data"
         cleanfile = directory
         encrypt_data = directory + "\\encrypt.data"
 
@@ -129,12 +138,11 @@ class App(QtWidgets.QMainWindow, design.Ui_Encryptor):
     def buttonClicked(self):
         try:
             global text
-            text, \
-            s = QtWidgets.QInputDialog.getText(self, "Input Dialog",
-                                               "Input Data:")
+            text, data = QtWidgets.QInputDialog.getText(self, "Input Dialog",
+                                                        "Input Data:")
 
-            if s:
-                f = open(listfile, "wb")
+            if data:
+                f = open(bookfile, "wb")
                 pickle.dump(text, f)
                 f.close()
                 print("\n[+] Data write")
@@ -187,9 +195,8 @@ class App(QtWidgets.QMainWindow, design.Ui_Encryptor):
             try:
                 if os.path.getsize(directory_secretKey) and os.path.getsize(directory_publicKey):
                     print("[*]Private and public keys are here")
-                    text, \
-                    g = QtWidgets.QInputDialog.getText(self, "Input Dialog",
-                                                       "Do you want to make new keys? Y/N:")
+                    text, g = QtWidgets.QInputDialog.getText(self, "Input Dialog",
+                                                             "Do you want to make new keys? Y/N:")
                     if text == "Y":
                         generate2()
                         break
@@ -208,22 +215,14 @@ class App(QtWidgets.QMainWindow, design.Ui_Encryptor):
 
     def buttonClicked3(self):
         try:
-            startTime = datetime.now()
             Crypt.walk(directory)
-            endTime = datetime.now()
-            print("Time: ", endTime - startTime)
-            print("--------------------------------------------------------------")
         except FileNotFoundError:
             print("[-]Error: You didn't select a folder/"
                   "Generate keys first")
 
     def buttonClicked4(self):
         try:
-            startTime = datetime.now()
             Decrypt.walk(directory)
-            endTime = datetime.now()
-            print("Time: ", endTime - startTime)
-            print("--------------------------------------------------------------")
 
         except FileNotFoundError:
             print("[-]Error: You didn't select a folder/"
@@ -238,18 +237,15 @@ class App(QtWidgets.QMainWindow, design.Ui_Encryptor):
         sys.exit(1)
 
     def buttonClicked6(self):
+        text, data = QtWidgets.QInputDialog.getText(self, "Input Dialog",
+                                                    "Input Data (only English):")
 
-        text, \
-        op = QtWidgets.QInputDialog.getText(self, "Input Dialog",
-                                            "Input Data (only English):")
-
-        if op:
+        if data:
             twofish_encryption.test = text
 
-        text, \
-        op1 = QtWidgets.QInputDialog.getText(self, "Input Password",
-                                             "256 bit password will be generated if you enter nothing")
-        if op1:
+        text, password = QtWidgets.QInputDialog.getText(self, "Input Password",
+                                                        "256 bit password will be generated if you enter nothing")
+        if password:
             if text == "":
                 chars = \
                     "+-/]\*;:|!&$(#?={~@`<>" \
@@ -274,11 +270,10 @@ class App(QtWidgets.QMainWindow, design.Ui_Encryptor):
     def buttonClicked7(self):
 
         try:
-            text, po = \
-                QtWidgets.QInputDialog.getText(self, "Input Dialog",
-                                               "Input Password:")
+            text, password = QtWidgets.QInputDialog.getText(self, "Input Dialog",
+                                                            "Input Password:")
 
-            if po:
+            if password:
                 twofish_encryption.key = text
 
                 f = open(encrypt_data, "rb")
@@ -292,7 +287,7 @@ class App(QtWidgets.QMainWindow, design.Ui_Encryptor):
         except FileNotFoundError:
             print("[-]Error: No file with decrypt data!")
 
-    def buttonClicked8(self, s=1):
+    def buttonClicked8(self, status=1):
         try:
             r = requests.get(
                 "https://raw.githubusercontent.com/retro-desert/Encryptor/master/version_server.txt"
@@ -300,7 +295,7 @@ class App(QtWidgets.QMainWindow, design.Ui_Encryptor):
             server_version = r.text
 
             if server_version <= __version__:
-                if s == 1:
+                if status == 1:
                     print("[*]Version is up to date!")
             else:
                 msgBox = PyQt5.QtWidgets.QMessageBox()
@@ -316,7 +311,7 @@ class App(QtWidgets.QMainWindow, design.Ui_Encryptor):
                     webbrowser.open("https://github.com/retro-desert/Encryptor/releases", new=2)
 
         except OSError:
-            if s == 1:
+            if status == 1:
                 PyQt5.QtWidgets.QMessageBox.question(self, "Message", "Internet is disabled!",
                                                      PyQt5.QtWidgets.QMessageBox.Ok)
 
@@ -369,7 +364,6 @@ class Crypt:
         erase(+folder_size, dir2)
 
     def walk(dir):
-
         for name in os.listdir(dir):
             path = os.path.join(dir, name)
             if os.path.isfile(path):

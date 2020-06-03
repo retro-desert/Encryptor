@@ -1,14 +1,14 @@
 __author__ = "Retro Desert " \
              "github.com/retro-desert"
 __license__ = "(c) 2020 GNU General Public License v3.0"
-__version__ = "1.915"
+__version__ = "1.920"
 __maintainer__ = "Retro Desert"
 __email__ = "iljaaz@yandex.ru"
 
 # PGP: 502b 51e0
 
 ###########################################
-#           ENCRYPTOR v1.915              #
+#           ENCRYPTOR v1.920              #
 ###########################################
 
 import argparse
@@ -61,7 +61,7 @@ directory = ""
 args = ""
 colorama.init()
 init(autoreset=True)
-print(Style.BRIGHT + Fore.CYAN + "\nENCRYPTOR v1.915")
+print(Style.BRIGHT + Fore.CYAN + "\nENCRYPTOR {}".format(__version__))
 
 
 def arguments():
@@ -127,13 +127,13 @@ cleanfile = directory
 if platform_var == "lin":
     directory_secretKey = script_directory + "//private.pem"
     directory_publicKey = script_directory + "//receiver.pem"
-    listfile = directory + "//data.data"
+    bookfile = directory + "//data.data"
     encrypt_data = script_directory + "//encrypt.data"
 
 elif platform_var == "win":
     directory_secretKey = script_directory + "\\private.pem"
     directory_publicKey = script_directory + "\\receiver.pem"
-    listfile = directory + "\\data.data"
+    bookfile = directory + "\\data.data"
     encrypt_data = directory + "\\encrypt.data"
 
 global walk
@@ -141,11 +141,11 @@ global crypt1
 global decrypt1
 
 
-def book(test=0, s="0"):
+def book(test=0, data=""):
     if test == 0:
-        s = input("Input data: ")
-    f = open(listfile, "wb")
-    pickle.dump(s, f)
+        data = input("Input data: ")
+    f = open(bookfile, "wb")
+    pickle.dump(data, f)
     f.close()
     print("\n[✓]", Style.BRIGHT + Fore.GREEN + "Data write")
 
@@ -229,15 +229,15 @@ def delete_keys():
         print(Style.BRIGHT + Fore.RED + "[-]Error:", Style.BRIGHT + "No keys")
 
 
-def twofish_encrypt(test=0, op="", d=""):
+def twofish_encrypt(test=0, data="", password=""):
     if test == 0:
-        op = input("Input Data (English only):\n")
-    twofish_encryption.test = op
+        data = input("Input Data (English only):\n")
+    twofish_encryption.test = data
     print("\n256 bit password will be generated if you enter nothing")
     if test == 0:
-        d = input("Input Password:\n")
+        password = input("Input Password:\n")
 
-    if d == "":
+    if password == "":
 
         chars = \
             "+-/]\*;:|!&$(#?={~@`<>" \
@@ -251,7 +251,7 @@ def twofish_encrypt(test=0, op="", d=""):
         print(Style.BRIGHT + "[*]Password:\n", Style.BRIGHT + Fore.GREEN + password)
         twofish_encryption.key = password
     else:
-        twofish_encryption.key = d
+        twofish_encryption.key = password
     twofish_encryption.start()
     twofish_encryption.encrypt()
     f = open(encrypt_data, "wb")
@@ -260,14 +260,14 @@ def twofish_encrypt(test=0, op="", d=""):
     print(Style.BRIGHT + "\n[✓]File with cypher text", Style.BRIGHT + Fore.GREEN + "saved")
 
 
-def twofish_decrypt(test=0, vv=""):
+def twofish_decrypt(test=0, password=""):
     try:
         f = open(encrypt_data, "rb")
         stored = pickle.load(f)
         f.close()
         if test == 0:
-            vv = input("Input Password:\n")
-        twofish_encryption.key = vv
+            password = input("Input Password:\n")
+        twofish_encryption.key = password
         twofish_encryption.test = stored
         twofish_encryption.start()
         twofish_encryption.decrypt()
@@ -277,7 +277,7 @@ def twofish_decrypt(test=0, vv=""):
         print(Style.BRIGHT + Fore.RED + "[-]Error:", Style.BRIGHT + "No file to decrypt data!")
 
 
-def update(s=1):
+def update(status=1):
     try:
         r = requests.get(
             "https://raw.githubusercontent.com/retro-desert/Encryptor/master/version_server.txt"
@@ -285,7 +285,7 @@ def update(s=1):
         server_version = r.text
 
         if server_version <= __version__:
-            if s == 1:
+            if status == 1:
                 print(Style.BRIGHT + Fore.GREEN + "\nVersion is up to date!")
         else:
             print(Style.BRIGHT + "\n[*]New version", Style.BRIGHT + Fore.GREEN + "available!",
@@ -314,12 +314,12 @@ def decrypt2():
 
 def testing():
     update()
-    book(test=1, s="lol1234-_-/testing")
+    book(test=1, data="lol1234-_-/testing")
     generate()
     crypt2()
     decrypt2()
-    twofish_encrypt(test=1, op="lol1234-_-/testing", d="1234password_test")
-    twofish_decrypt(test=1, vv="1234password_test")
+    twofish_encrypt(test=1, data="lol1234-_-/testing", password="1234password_test")
+    twofish_decrypt(test=1, password="1234password_test")
     delete_keys()
 
 
@@ -414,7 +414,7 @@ if args.twofish_dec:
     sys.exit(1)
 
 if not args.test:
-    update(s=0)
+    update(status=0)
 
     while True:
         print(Style.BRIGHT + "\n--What do you want to do?--\n")
