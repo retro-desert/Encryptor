@@ -13,7 +13,7 @@ This script is created so that everyone can encrypt files.
 
 ## Quck start(windows):
 
-**1.** Download encryptor.zip (https://github.com/retro-desert/Encryptor/releases)
+**1.** Download encryptor.exe (https://github.com/retro-desert/Encryptor/releases)
 
 **2.** Run encryptor.**exe**
 
