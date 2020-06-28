@@ -1,14 +1,14 @@
 __author__ = "Retro Desert " \
              "github.com/retro-desert"
 __license__ = "(c) 2020 GNU General Public License v3.0"
-__version__ = "1.920"
+__version__ = "1.930"
 __maintainer__ = "Retro Desert"
 __email__ = "iljaaz@yandex.ru"
 
 # PGP: 502b 51e0
 
 ###########################################
-#           ENCRYPTOR v1.920              #
+#           ENCRYPTOR v1.930              #
 ###########################################
 
 import argparse
@@ -61,7 +61,15 @@ directory = ""
 args = ""
 colorama.init()
 init(autoreset=True)
-print(Style.BRIGHT + Fore.CYAN + "\nENCRYPTOR {}".format(__version__))
+print(Style.BRIGHT + Fore.CYAN + """
+███████╗███╗   ██╗ ██████╗██████╗ ██╗   ██╗██████╗ ████████╗ ██████╗ ██████╗
+██╔════╝████╗  ██║██╔════╝██╔══██╗╚██╗ ██╔╝██╔══██╗╚══██╔══╝██╔═══██╗██╔══██╗
+█████╗  ██╔██╗ ██║██║     ██████╔╝ ╚████╔╝ ██████╔╝   ██║   ██║   ██║██████╔╝
+██╔══╝  ██║╚██╗██║██║     ██╔══██╗  ╚██╔╝  ██╔═══╝    ██║   ██║   ██║██╔══██╗
+███████╗██║ ╚████║╚██████╗██║  ██║   ██║   ██║        ██║   ╚██████╔╝██║  ██║
+╚══════╝╚═╝  ╚═══╝ ╚═════╝╚═╝  ╚═╝   ╚═╝   ╚═╝        ╚═╝    ╚═════╝ ╚═╝  ╚═╝
+""")
+print(Style.BRIGHT + Fore.CYAN + f"ENCRYPTOR {__version__}")
 
 
 def arguments():
@@ -156,18 +164,21 @@ def generate():
               "Generating 4096 bit key...")
 
     def generate_keys():
-        key = RSA.generate(4096)
-        private_key = key.export_key()
-        file_out = open("private.pem", "wb")
-        file_out.write(private_key)
-        # print(private_key)
-        print(Style.BRIGHT + Fore.GREEN + "\n[✓]Private key created!")
+        try:
+            key = RSA.generate(4096)
+            private_key = key.export_key()
+            file_out = open("private.pem", "wb")
+            file_out.write(private_key)
+            # print(private_key)
 
-        public_key = key.publickey().export_key()
-        file_out = open("receiver.pem", "wb")
-        file_out.write(public_key)
-        # print(public_key)
-        print(Style.BRIGHT + Fore.GREEN + "[✓]Public key created!")
+            public_key = key.publickey().export_key()
+            file_out = open("receiver.pem", "wb")
+            file_out.write(public_key)
+            # print(public_key)
+
+            print(Style.BRIGHT + Fore.GREEN + "[✓]Keys generated!")
+        except:
+            print("[-] Keys not generated")
 
     def generate2():
         # init events
@@ -191,7 +202,7 @@ def generate():
     while True:
         try:
             if os.path.getsize(directory_secretKey) and os.path.getsize(directory_publicKey):
-                print("[*]Private and public keys are here")
+                print("[*]Keys are here")
                 print(Style.BRIGHT + "Do you want to make new keys? ",
                       Style.BRIGHT + Fore.GREEN + "Y",
                       "/", Style.BRIGHT + Fore.RED + "N")
@@ -224,7 +235,7 @@ def delete_keys():
         erase(+clean1)
         os.remove(directory_publicKey)
         erase(+clean2)
-        print(Style.BRIGHT + Fore.GREEN + "[+]Deleted!")
+        print(Style.BRIGHT + Fore.GREEN + "[+]Keys deleted!")
     except FileNotFoundError:
         print(Style.BRIGHT + Fore.RED + "[-]Error:", Style.BRIGHT + "No keys")
 
@@ -419,7 +430,7 @@ if not args.test:
     while True:
         print(Style.BRIGHT + "\n--What do you want to do?--\n")
         print(Style.BRIGHT + Fore.YELLOW +
-              "----------------\n0) Check updates\n----------------")
+              "   _________________\n0) ┤║Check updates║├\n   ¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯")
         print(Style.BRIGHT +
               "1) Write data\n"
               "2) Generate keys\n"

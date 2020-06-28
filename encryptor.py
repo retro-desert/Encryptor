@@ -1,14 +1,14 @@
 __author__ = "Retro Desert " \
              "github.com/retro-desert"
 __license__ = "(c) 2020 GNU General Public License v3.0"
-__version__ = "1.920"
+__version__ = "1.930"
 __maintainer__ = "Retro Desert"
 __email__ = "iljaaz@yandex.ru"
 
 # PGP: 502b 51e0
 
 ###########################################
-#           ENCRYPTOR v1.920              #
+#           ENCRYPTOR v1.930              #
 ###########################################
 
 import os
@@ -19,7 +19,6 @@ import sys
 import tempfile
 import threading
 import webbrowser
-from datetime import datetime
 
 import PyQt5.QtGui
 from Cryptodome.Cipher import AES, PKCS1_OAEP
@@ -103,7 +102,7 @@ class App(QtWidgets.QMainWindow, design.Ui_Encryptor):
         self.pushButton_8.clicked.connect(lambda: self.buttonClicked7())
         self.pushButton_9.clicked.connect(lambda: self.buttonClicked8())
         self.setWindowIcon(PyQt5.QtGui.QIcon(icon))
-        print("ENCRYPTOR {}\n".format(__version__))
+        print(f"ENCRYPTOR {__version__}\n")
         self.buttonClicked8(status=0)
 
     def resizeEvent(self, event):
@@ -117,7 +116,7 @@ class App(QtWidgets.QMainWindow, design.Ui_Encryptor):
     def append_log(self, text, severity):
 
         if severity == OutputLogger.Severity.ERROR:
-            self.text_edit.append("{}".format(text))
+            self.text_edit.append(f"{text}")
         else:
             self.text_edit.append(text)
 
@@ -156,18 +155,21 @@ class App(QtWidgets.QMainWindow, design.Ui_Encryptor):
                   "Generating 4096 bit key...")
 
         def generate_keys():
-            key = RSA.generate(4096)
-            private_key = key.export_key()
-            file_out = open("private.pem", "wb")
-            file_out.write(private_key)
-            # print(private_key)
-            print("[+]Private key created!")
+            try:
+                key = RSA.generate(4096)
+                private_key = key.export_key()
+                file_out = open("private.pem", "wb")
+                file_out.write(private_key)
+                # print(private_key)
 
-            public_key = key.publickey().export_key()
-            file_out = open("receiver.pem", "wb")
-            file_out.write(public_key)
-            # print(public_key)
-            print("[+]Public key created!")
+                public_key = key.publickey().export_key()
+                file_out = open("receiver.pem", "wb")
+                file_out.write(public_key)
+                # print(public_key)
+
+                print("[+]Keys generated!")
+            except:
+                print("[-] Keys not generated")
 
         def generate2():
             # init events
@@ -194,7 +196,7 @@ class App(QtWidgets.QMainWindow, design.Ui_Encryptor):
         while True:
             try:
                 if os.path.getsize(directory_secretKey) and os.path.getsize(directory_publicKey):
-                    print("[*]Private and public keys are here")
+                    print("[*]Keys are here")
                     text, g = QtWidgets.QInputDialog.getText(self, "Input Dialog",
                                                              "Do you want to make new keys? Y/N:")
                     if text == "Y":
@@ -209,7 +211,7 @@ class App(QtWidgets.QMainWindow, design.Ui_Encryptor):
     def buttonClicked2(self):
         try:
             delete_keys()
-            print("[+]Deleted!")
+            print("[+]Keys deleted!")
         except FileNotFoundError:
             print("[-]Error: No keys")
 
@@ -255,17 +257,21 @@ class App(QtWidgets.QMainWindow, design.Ui_Encryptor):
                 password = ""
                 for i in range(32):
                     password += random.choice(chars)
-                print("[*]Password:", password)
+                # print("[*]Password:", password)
                 twofish_encryption.key = password
             else:
                 twofish_encryption.key = text
 
         twofish_encryption.start()
         twofish_encryption.encrypt()
-        f = open(encrypt_data, "wb")
-        pickle.dump(twofish_encryption.Cypher_text, f)
-        f.close()
-        print("\n[+]File with cypher text saved")
+        try:
+            f = open(encrypt_data, "wb")
+            pickle.dump(twofish_encryption.Cypher_text, f)
+            f.close()
+            print("\n[+]File with cypher text saved")
+            print("[*]Password:", password)
+        except NameError:
+            print("[-]Error: You didn't select a folder")
 
     def buttonClicked7(self):
 

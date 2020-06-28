@@ -94,7 +94,7 @@ class Ui_Encryptor(object):
 
     def retranslateUi(self, Encryptor):
         _translate = QtCore.QCoreApplication.translate
-        Encryptor.setWindowTitle(_translate("Encryptor", "Encryptor 1.920"))
+        Encryptor.setWindowTitle(_translate("Encryptor", "Encryptor 1.930"))
         self.btnBrowse.setText(_translate("Encryptor", "CHOOSE FOLDER"))
         self.pushButton.setText(_translate("Encryptor", "Write data"))
         self.pushButton_2.setText(_translate("Encryptor", "Generate keys"))

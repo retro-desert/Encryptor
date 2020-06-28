@@ -2,6 +2,10 @@ This is patch notes, the latest version of the program and innovations is writte
 
  | PATCH NOTE |
 
+  Version 1.930 (28.06.2020)
+   -Some cosmetics changes
+   -Some handling errors
+
   Version 1.920 (03.06.2020)
    -Slightly optimized code
 
