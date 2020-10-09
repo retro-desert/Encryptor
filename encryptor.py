@@ -1,14 +1,14 @@
 __author__ = "Retro Desert " \
              "github.com/retro-desert"
 __license__ = "(c) 2020 GNU General Public License v3.0"
-__version__ = "1.930"
+__version__ = "1.935"
 __maintainer__ = "Retro Desert"
 __email__ = "iljaaz@yandex.ru"
 
 # PGP: 502b 51e0
 
 ###########################################
-#           ENCRYPTOR v1.930              #
+#           ENCRYPTOR v1.935-SE           #
 ###########################################
 
 import os
@@ -31,18 +31,18 @@ from PyQt5.QtCore import pyqtSignal as Signal
 import design
 import twofish_encryption
 
-script_directory = os.path.abspath(os.curdir)
+src_dir = os.path.abspath(os.curdir)
 
 try:
     image = sys._MEIPASS + "\\image.jpg"
     icon = sys._MEIPASS + "\\logo.ico"
 except AttributeError:
-    icon = script_directory + "\\logo.ico"
-    image = script_directory + "\\image.jpg"
+    icon = src_dir + "\\logo.ico"
+    image = src_dir + "\\image.jpg"
 
 directory = ""
-directory_secretKey = script_directory + "\\private.pem"
-directory_publicKey = script_directory + "\\receiver.pem"
+dir_secKey = src_dir + "\\private.pem"
+dir_pubKey = src_dir + "\\receiver.pem"
 
 global walk
 global crypt1
@@ -82,9 +82,6 @@ class App(QtWidgets.QMainWindow, design.Ui_Encryptor):
 
     def __init__(self):
 
-        global secretKey
-        global publicKey
-
         super().__init__()
 
         OUTPUT_LOGGER_STDOUT.emit_write.connect(self.append_log)
@@ -102,7 +99,7 @@ class App(QtWidgets.QMainWindow, design.Ui_Encryptor):
         self.pushButton_8.clicked.connect(lambda: self.buttonClicked7())
         self.pushButton_9.clicked.connect(lambda: self.buttonClicked8())
         self.setWindowIcon(PyQt5.QtGui.QIcon(icon))
-        print(f"ENCRYPTOR {__version__}\n")
+        print(f"ENCRYPTOR {__version__}-SE\nHappy Halloween!")
         self.buttonClicked8(status=0)
 
     def resizeEvent(self, event):
@@ -145,7 +142,7 @@ class App(QtWidgets.QMainWindow, design.Ui_Encryptor):
                 pickle.dump(text, f)
                 f.close()
                 print("\n[+] Data write")
-        except NameError:
+        except NameError or PermissionError:
             print("[-]Error: You didn't select a folder")
 
     def buttonClicked1(self):
@@ -195,7 +192,7 @@ class App(QtWidgets.QMainWindow, design.Ui_Encryptor):
 
         while True:
             try:
-                if os.path.getsize(directory_secretKey) and os.path.getsize(directory_publicKey):
+                if os.path.getsize(dir_secKey) and os.path.getsize(dir_pubKey):
                     print("[*]Keys are here")
                     text, g = QtWidgets.QInputDialog.getText(self, "Input Dialog",
                                                              "Do you want to make new keys? Y/N:")
@@ -219,17 +216,23 @@ class App(QtWidgets.QMainWindow, design.Ui_Encryptor):
         try:
             Crypt.walk(directory)
         except FileNotFoundError:
-            print("[-]Error: You didn't select a folder/"
-                  "Generate keys first")
+            try:
+                if os.path.getsize(dir_secKey) and os.path.getsize(dir_pubKey):
+                    print("[-]Error: You didn't select a folder")
+            except FileNotFoundError:
+                print("[-]Error: Generate keys first")
 
     def buttonClicked4(self):
         try:
             Decrypt.walk(directory)
 
         except FileNotFoundError:
-            print("[-]Error: You didn't select a folder/"
-                  "Generate keys first/"
-                  "File without extension")
+            try:
+                if os.path.getsize(dir_secKey) and os.path.getsize(dir_pubKey):
+                    print("[-]Error: You didn't select a folder /\n"
+                          "File without extension")
+            except FileNotFoundError:
+                print("[-]Error: Generate keys first")
 
         except ValueError:
             print("[-]Error: File decrypted or corrupt")
@@ -257,7 +260,6 @@ class App(QtWidgets.QMainWindow, design.Ui_Encryptor):
                 password = ""
                 for i in range(32):
                     password += random.choice(chars)
-                # print("[*]Password:", password)
                 twofish_encryption.key = password
             else:
                 twofish_encryption.key = text
@@ -290,8 +292,8 @@ class App(QtWidgets.QMainWindow, design.Ui_Encryptor):
                 twofish_encryption.decrypt()
                 print("[+]Data:", twofish_encryption.plain_text)
 
-        except FileNotFoundError:
-            print("[-]Error: No file with decrypt data!")
+        except FileNotFoundError or NameError:
+            print("[-]Error: No file to decrypt data!")
 
     def buttonClicked8(self, status=1):
         try:
@@ -322,7 +324,7 @@ class App(QtWidgets.QMainWindow, design.Ui_Encryptor):
                                                      PyQt5.QtWidgets.QMessageBox.Ok)
 
 
-def erase(size, dir1=script_directory):
+def erase(size, dir1=src_dir):
     for i in range(1, 36):
         size = random.randint(100, 10000)
         random_filename = tempfile.mktemp(dir=dir1)
@@ -333,11 +335,11 @@ def erase(size, dir1=script_directory):
 
 
 def delete_keys():
-    clean1 = os.path.getsize(directory_secretKey)
-    clean2 = os.path.getsize(directory_publicKey)
-    os.remove(directory_secretKey)
+    clean1 = os.path.getsize(dir_secKey)
+    clean2 = os.path.getsize(dir_pubKey)
+    os.remove(dir_secKey)
     erase(+clean1)
-    os.remove(directory_publicKey)
+    os.remove(dir_pubKey)
     erase(+clean2)
 
 
@@ -351,7 +353,7 @@ class Crypt:
 
         file_out = open(str(file) + ".bin", "wb")
 
-        recipient_key = RSA.import_key(open(directory_publicKey).read())
+        recipient_key = RSA.import_key(open(dir_pubKey).read())
         session_key = get_random_bytes(16)
 
         cipher_rsa = PKCS1_OAEP.new(recipient_key)
@@ -383,7 +385,7 @@ class Decrypt:
     def decrypt1(file):
         file_in = open(file, "rb")
         file_out = open(str(file[:-4]), "wb")
-        private_key = RSA.import_key(open(directory_secretKey).read())
+        private_key = RSA.import_key(open(dir_secKey).read())
 
         enc_session_key, nonce, tag, ciphertext = \
             [file_in.read(x) for x in (private_key.size_in_bytes(), 16, 16, -1)]

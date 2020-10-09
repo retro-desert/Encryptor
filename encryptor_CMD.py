@@ -1,14 +1,14 @@
 __author__ = "Retro Desert " \
              "github.com/retro-desert"
 __license__ = "(c) 2020 GNU General Public License v3.0"
-__version__ = "1.930"
+__version__ = "1.935"
 __maintainer__ = "Retro Desert"
 __email__ = "iljaaz@yandex.ru"
 
 # PGP: 502b 51e0
 
 ###########################################
-#           ENCRYPTOR v1.930              #
+#           ENCRYPTOR v1.935-SE           #
 ###########################################
 
 import argparse
@@ -18,7 +18,6 @@ import random
 import sys
 import tempfile
 import threading
-from datetime import datetime
 from sys import platform
 
 import twofish_encryption
@@ -69,7 +68,8 @@ print(Style.BRIGHT + Fore.CYAN + """
 ███████╗██║ ╚████║╚██████╗██║  ██║   ██║   ██║        ██║   ╚██████╔╝██║  ██║
 ╚══════╝╚═╝  ╚═══╝ ╚═════╝╚═╝  ╚═╝   ╚═╝   ╚═╝        ╚═╝    ╚═════╝ ╚═╝  ╚═╝
 """)
-print(Style.BRIGHT + Fore.CYAN + f"ENCRYPTOR {__version__}")
+print(Style.BRIGHT + Fore.CYAN + f"ENCRYPTOR {__version__}-SE")
+print(Style.BRIGHT + Fore.RED + "Happy Halloween!")
 
 
 def arguments():
@@ -80,13 +80,25 @@ def arguments():
                                      "Example: "
                                      "python encryptor_CMD.py -P "
                                      "/home/admin/test"
-                                     " or"
-                                     " 'C:\\Users\\admin\\test'")
+                                     " (or"
+                                     " 'C:\\Users\\admin\\test')")
 
     parser.add_argument(
         "-P", "--path",
         type=str,
         help="Path to files"
+    )
+
+    parser.add_argument(
+        "-G", "--generate",
+        action="store_true",
+        help="Generate keys"
+    )
+
+    parser.add_argument(
+        "-EK", "--erase_keys",
+        action="store_true",
+        help="Erase Keys"
     )
 
     parser.add_argument(
@@ -130,17 +142,17 @@ def arguments():
 
 arguments()
 
-script_directory = os.path.abspath(os.curdir)
+src_dir = os.path.abspath(os.curdir)
 cleanfile = directory
 if platform_var == "lin":
-    directory_secretKey = script_directory + "//private.pem"
-    directory_publicKey = script_directory + "//receiver.pem"
+    dir_secKey = src_dir + "//private.pem"
+    dir_pubKey = src_dir + "//receiver.pem"
     bookfile = directory + "//data.data"
-    encrypt_data = script_directory + "//encrypt.data"
+    encrypt_data = src_dir + "//encrypt.data"
 
 elif platform_var == "win":
-    directory_secretKey = script_directory + "\\private.pem"
-    directory_publicKey = script_directory + "\\receiver.pem"
+    dir_secKey = src_dir + "\\private.pem"
+    dir_pubKey = src_dir + "\\receiver.pem"
     bookfile = directory + "\\data.data"
     encrypt_data = directory + "\\encrypt.data"
 
@@ -150,12 +162,15 @@ global decrypt1
 
 
 def book(test=0, data=""):
-    if test == 0:
-        data = input("Input data: ")
-    f = open(bookfile, "wb")
-    pickle.dump(data, f)
-    f.close()
-    print("\n[✓]", Style.BRIGHT + Fore.GREEN + "Data write")
+    try:
+        if test == 0:
+            data = input("Input data: ")
+        f = open(bookfile, "wb")
+        pickle.dump(data, f)
+        f.close()
+        print("\n[✓]", Style.BRIGHT + Fore.GREEN + "Data write")
+    except FileNotFoundError or PermissionError:
+        print(Style.BRIGHT + Fore.RED + "[-] Error:", Style.BRIGHT + "You selected an invalid folder")
 
 
 def generate():
@@ -201,7 +216,7 @@ def generate():
 
     while True:
         try:
-            if os.path.getsize(directory_secretKey) and os.path.getsize(directory_publicKey):
+            if os.path.getsize(dir_secKey) and os.path.getsize(dir_pubKey):
                 print("[*]Keys are here")
                 print(Style.BRIGHT + "Do you want to make new keys? ",
                       Style.BRIGHT + Fore.GREEN + "Y",
@@ -217,7 +232,7 @@ def generate():
             break
 
 
-def erase(size, dir1=script_directory):
+def erase(size, dir1=src_dir):
     for i in range(1, 36):
         size = random.randint(100, 10000)
         random_filename = tempfile.mktemp(dir=dir1)
@@ -229,11 +244,11 @@ def erase(size, dir1=script_directory):
 
 def delete_keys():
     try:
-        clean1 = os.path.getsize(directory_secretKey)
-        clean2 = os.path.getsize(directory_publicKey)
-        os.remove(directory_secretKey)
+        clean1 = os.path.getsize(dir_secKey)
+        clean2 = os.path.getsize(dir_pubKey)
+        os.remove(dir_secKey)
         erase(+clean1)
-        os.remove(directory_publicKey)
+        os.remove(dir_pubKey)
         erase(+clean2)
         print(Style.BRIGHT + Fore.GREEN + "[+]Keys deleted!")
     except FileNotFoundError:
@@ -241,34 +256,37 @@ def delete_keys():
 
 
 def twofish_encrypt(test=0, data="", password=""):
-    if test == 0:
-        data = input("Input Data (English only):\n")
-    twofish_encryption.test = data
-    print("\n256 bit password will be generated if you enter nothing")
-    if test == 0:
-        password = input("Input Password:\n")
+    try:
+        if test == 0:
+            data = input("Input Data (English only):\n")
+        twofish_encryption.test = data
+        print("\n256 bit password will be generated if you enter nothing")
+        if test == 0:
+            password = input("Input Password:\n")
 
-    if password == "":
+        if password == "":
 
-        chars = \
-            "+-/]\*;:|!&$(#?={~@`<>" \
-            "_)}[abcdefghijklnopqrs" \
-            "tuvwxyzABCDEFGHIJKLMNO" \
-            "PQRSTUVWXYZ1234567890"
+            chars = \
+                "+-/]\*;:|!&$(#?={~@`<>" \
+                "_)}[abcdefghijklnopqrs" \
+                "tuvwxyzABCDEFGHIJKLMNO" \
+                "PQRSTUVWXYZ1234567890"
 
-        password = ""
-        for i in range(32):
-            password += random.choice(chars)
-        print(Style.BRIGHT + "[*]Password:\n", Style.BRIGHT + Fore.GREEN + password)
-        twofish_encryption.key = password
-    else:
-        twofish_encryption.key = password
-    twofish_encryption.start()
-    twofish_encryption.encrypt()
-    f = open(encrypt_data, "wb")
-    pickle.dump(twofish_encryption.Cypher_text, f)
-    f.close()
-    print(Style.BRIGHT + "\n[✓]File with cypher text", Style.BRIGHT + Fore.GREEN + "saved")
+            password = ""
+            for i in range(32):
+                password += random.choice(chars)
+            print(Style.BRIGHT + "[*]Password:\n", Style.BRIGHT + Fore.GREEN + password)
+            twofish_encryption.key = password
+        else:
+            twofish_encryption.key = password
+        twofish_encryption.start()
+        twofish_encryption.encrypt()
+        f = open(encrypt_data, "wb")
+        pickle.dump(twofish_encryption.Cypher_text, f)
+        f.close()
+        print(Style.BRIGHT + "\n[✓]File with cypher text", Style.BRIGHT + Fore.GREEN + "saved")
+    except FileNotFoundError or NameError:
+        print(Style.BRIGHT + Fore.RED + "[-]Error:", Style.BRIGHT + "You selected an invalid folder")
 
 
 def twofish_decrypt(test=0, password=""):
@@ -308,19 +326,19 @@ def update(status=1):
 
 
 def crypt2():
-    startTime = datetime.now()
+    # startTime = datetime.now()
     Crypt.walk(directory)
-    endTime = datetime.now()
-    print("Time: ", endTime - startTime)
-    print("---------------------------------------------------------------")
+    # endTime = datetime.now()
+    # print("Time: ", endTime - startTime)
+    # print("---------------------------------------------------------------")
 
 
 def decrypt2():
-    startTime = datetime.now()
+    # startTime = datetime.now()
     Decrypt.walk(directory)
-    endTime = datetime.now()
-    print("Time: ", endTime - startTime)
-    print("---------------------------------------------------------------")
+    # endTime = datetime.now()
+    # print("Time: ", endTime - startTime)
+    # print("---------------------------------------------------------------")
 
 
 def testing():
@@ -343,7 +361,7 @@ class Crypt:
 
             file_out = open(str(file) + ".bin", "wb")
 
-            recipient_key = RSA.import_key(open(directory_publicKey).read())
+            recipient_key = RSA.import_key(open(dir_pubKey).read())
             session_key = get_random_bytes(16)
 
             cipher_rsa = PKCS1_OAEP.new(recipient_key)
@@ -362,7 +380,11 @@ class Crypt:
             erase(+folder_size, dir2)
 
         except FileNotFoundError:
-            print(Style.BRIGHT + Fore.RED + "[-]Error:", Style.BRIGHT + "Generate keys first")
+            try:
+                if os.path.getsize(dir_secKey) and os.path.getsize(dir_pubKey):
+                    print(Style.BRIGHT + Fore.RED + "[-]Error:", Style.BRIGHT + "You selected an invalid folder")
+            except FileNotFoundError:
+                print(Style.BRIGHT + Fore.RED + "[-]Error:", Style.BRIGHT + "Generate keys first")
 
     def walk(dir):
         for name in os.listdir(dir):
@@ -378,7 +400,7 @@ class Decrypt:
         try:
             file_in = open(file, "rb")
             file_out = open(str(file[:-4]), "wb")
-            private_key = RSA.import_key(open(directory_secretKey).read())
+            private_key = RSA.import_key(open(dir_secKey).read())
 
             enc_session_key, nonce, tag, ciphertext = \
                 [file_in.read(x) for x in (private_key.size_in_bytes(), 16, 16, -1)]
@@ -395,7 +417,12 @@ class Decrypt:
             os.remove(file)
 
         except FileNotFoundError:
-            print(Style.BRIGHT + Fore.RED + "[-]Error:", Style.BRIGHT + "File without extension / Invalid keys")
+            try:
+                if os.path.getsize(dir_secKey) and os.path.getsize(dir_pubKey):
+                    print(Style.BRIGHT + Fore.RED + "[-]Error:", Style.BRIGHT + "You selected an invalid folder /\n"
+                                                                                "File without extension")
+            except FileNotFoundError:
+                print(Style.BRIGHT + Fore.RED + "[-]Error:", Style.BRIGHT + "Generate keys first")
         except ValueError:
             print(Style.BRIGHT + Fore.RED + "[-]Error:", Style.BRIGHT + "File decrypted or corrupt")
 
@@ -408,19 +435,27 @@ class Decrypt:
                 walk(path)
 
 
-if args.crypt:
+if args.generate:
+    generate()
+    sys.exit(1)
+
+elif args.erase_keys:
+    delete_keys()
+    sys.exit(1)
+
+elif args.crypt:
     crypt2()
     sys.exit(1)
 
-if args.decrypt:
+elif args.decrypt:
     decrypt2()
     sys.exit(1)
 
-if args.twofish_enc:
+elif args.twofish_enc:
     twofish_encrypt()
     sys.exit(1)
 
-if args.twofish_dec:
+elif args.twofish_dec:
     twofish_decrypt()
     sys.exit(1)
 

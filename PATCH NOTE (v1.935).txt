@@ -2,6 +2,12 @@ This is patch notes, the latest version of the program and innovations is writte
 
  | PATCH NOTE |
 
+  Version 1.935 SE (09.10.2020)
+   -Special Edition for Halloween
+   -Some handling errors
+   -Added some functions to arguments (-G, -EK)
+   -Old versions deleted and uploaded with this release
+
   Version 1.930 (28.06.2020)
    -Some cosmetics changes
    -Some handling errors
