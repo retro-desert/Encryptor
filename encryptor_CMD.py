@@ -268,7 +268,7 @@ def twofish_encrypt(test=0, data="", password=""):
 
             chars = \
                 "+-/]\*;:|!&$(#?={~@`<>" \
-                "_)}[abcdefghijklnopqrs" \
+                "_)}[abcdefghijklmnopqrs" \
                 "tuvwxyzABCDEFGHIJKLMNO" \
                 "PQRSTUVWXYZ1234567890"
 
