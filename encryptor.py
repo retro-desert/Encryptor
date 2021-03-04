@@ -254,7 +254,7 @@ class App(QtWidgets.QMainWindow, design.Ui_Encryptor):
             if text == "":
                 chars = \
                     "+-/]\*;:|!&$(#?={~@`<>" \
-                    "_)}[abcdefghijklnopqrs" \
+                    "_)}[abcdefghijklmnopqrs" \
                     "tuvwxyzABCDEFGHIJKLMNO" \
                     "PQRSTUVWXYZ1234567890"
                 password = ""
