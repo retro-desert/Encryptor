@@ -259,13 +259,15 @@ def erase(size, dir1=src_dir):
         os.remove(random_filename)
 
 
-def delete_keys():
+def delete_keys(status=0):
     if os.path.isfile(secKey) or os.path.isfile(pubKey):
-        print(Style.BRIGHT + "Do you want to delete keys?",
-              Style.BRIGHT + Fore.GREEN + "Y",
-              "/", Style.BRIGHT + Fore.RED + "N")
-        g = input()
-        if g == "Y":
+        g = ""
+        if status == 0:
+            print(Style.BRIGHT + "Do you want to delete keys?",
+                  Style.BRIGHT + Fore.GREEN + "Y",
+                  "/", Style.BRIGHT + Fore.RED + "N")
+            g = input()
+        if g == "Y" or status == 1:
             if os.path.isfile(secKey):
                 clean1 = os.path.getsize(secKey)
                 os.remove(secKey)
@@ -406,7 +408,7 @@ def testing():
     decrypt2()
     twofish_encrypt(test=1, data="lol1234-_-/testing", password="1234password_test")
     twofish_decrypt(test=1, password="1234password_test")
-    delete_keys()
+    delete_keys(status=1)
 
 
 class Crypt:
