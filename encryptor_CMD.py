@@ -1,14 +1,11 @@
 __author__ = "Retro Desert " \
              "github.com/retro-desert"
-__license__ = "(c) 2020 GNU General Public License v3.0"
-__version__ = "1.935"
+__license__ = "(c) 2021 GNU General Public License v3.0"
+__version__ = "1.990"
 __maintainer__ = "Retro Desert"
-__email__ = "iljaaz@yandex.ru"
-
-# PGP: 502b 51e0
 
 ###########################################
-#           ENCRYPTOR v1.935-SE           #
+#         ENCRYPTOR v1.990-FINAL          #
 ###########################################
 
 import argparse
@@ -29,9 +26,9 @@ elif platform == "win32":
 
 while True:
     try:
-        from Cryptodome.PublicKey import RSA
-        from Cryptodome.Random import get_random_bytes
-        from Cryptodome.Cipher import AES, PKCS1_OAEP
+        from Crypto.PublicKey import RSA
+        from Crypto.Random import get_random_bytes
+        from Crypto.Cipher import AES, PKCS1_OAEP
         import requests
         from colorama import Style, Back, Fore
         from colorama import init
@@ -57,6 +54,7 @@ while True:
             sys.exit(1)
 
 directory = ""
+files = ""
 args = ""
 colorama.init()
 init(autoreset=True)
@@ -68,25 +66,31 @@ print(Style.BRIGHT + Fore.CYAN + """
 ███████╗██║ ╚████║╚██████╗██║  ██║   ██║   ██║        ██║   ╚██████╔╝██║  ██║
 ╚══════╝╚═╝  ╚═══╝ ╚═════╝╚═╝  ╚═╝   ╚═╝   ╚═╝        ╚═╝    ╚═════╝ ╚═╝  ╚═╝
 """)
-print(Style.BRIGHT + Fore.CYAN + f"ENCRYPTOR {__version__}-SE")
-print(Style.BRIGHT + Fore.RED + "Happy Halloween!")
+print(Style.BRIGHT + Fore.CYAN + f"ENCRYPTOR {__version__}")
 
 
 def arguments():
     global directory
     global args
+    global files
 
     parser = argparse.ArgumentParser(description=
                                      "Example: "
                                      "python encryptor_CMD.py -P "
                                      "/home/admin/test"
                                      " (or"
-                                     " 'C:\\Users\\admin\\test')")
+                                     " 'C:\\Users\\admin\\test')\n")
 
     parser.add_argument(
         "-P", "--path",
         type=str,
-        help="Path to files"
+        help="Path to directory"
+    )
+
+    parser.add_argument(
+        "-F", "--files",
+        type=str,
+        help="Path to files <e.g. python encryptor_CMD.py -F '/home/file_1; /home/file_2' >"
     )
 
     parser.add_argument(
@@ -135,9 +139,34 @@ def arguments():
 
     if args.path:
         directory = args.path
+        while True:
+            if not os.path.isdir(directory):
+                print(Style.BRIGHT + Fore.RED + "[-]Error:", Style.BRIGHT + "Invalid directory")
+                directory = input("[*]Input work path: ")
+
+            else:
+                break
         print("Directory: ", directory)
+
+    elif args.files:
+        files = args.files.split("; ")
+        directory = os.path.dirname(files[0])
+        for file_name in files:
+            if os.path.isfile(file_name):
+                print("[*]File:", file_name[len(directory) + 1:])
+
+            else:
+                print(Style.BRIGHT + Fore.RED + "[-]Error:", Style.BRIGHT + "File not found")
+                sys.exit(1)
+
     else:
-        directory = input("[+]Input work path: ")
+        while True:
+            directory = input("[*]Input work path: ")
+            if not os.path.isdir(directory):
+                print(Style.BRIGHT + Fore.RED + "[-]Error:", Style.BRIGHT + "Invalid directory")
+
+            else:
+                break
 
 
 arguments()
@@ -145,14 +174,14 @@ arguments()
 src_dir = os.path.abspath(os.curdir)
 cleanfile = directory
 if platform_var == "lin":
-    dir_secKey = src_dir + "//private.pem"
-    dir_pubKey = src_dir + "//receiver.pem"
+    secKey = src_dir + "//private.pem"
+    pubKey = src_dir + "//receiver.pem"
     bookfile = directory + "//data.data"
     encrypt_data = src_dir + "//encrypt.data"
 
 elif platform_var == "win":
-    dir_secKey = src_dir + "\\private.pem"
-    dir_pubKey = src_dir + "\\receiver.pem"
+    secKey = src_dir + "\\private.pem"
+    pubKey = src_dir + "\\receiver.pem"
     bookfile = directory + "\\data.data"
     encrypt_data = directory + "\\encrypt.data"
 
@@ -162,15 +191,12 @@ global decrypt1
 
 
 def book(test=0, data=""):
-    try:
-        if test == 0:
-            data = input("Input data: ")
-        f = open(bookfile, "wb")
-        pickle.dump(data, f)
-        f.close()
-        print("\n[✓]", Style.BRIGHT + Fore.GREEN + "Data write")
-    except FileNotFoundError or PermissionError:
-        print(Style.BRIGHT + Fore.RED + "[-] Error:", Style.BRIGHT + "You selected an invalid folder")
+    if test == 0:
+        data = input("Input data: ")
+    f = open(bookfile, "wb")
+    pickle.dump(data, f)
+    f.close()
+    print("\n[✓]", Style.BRIGHT + Fore.GREEN + "Data write")
 
 
 def generate():
@@ -179,21 +205,18 @@ def generate():
               "Generating 4096 bit key...")
 
     def generate_keys():
-        try:
-            key = RSA.generate(4096)
-            private_key = key.export_key()
-            file_out = open("private.pem", "wb")
-            file_out.write(private_key)
-            # print(private_key)
+        key = RSA.generate(4096)
+        private_key = key.export_key()
+        file_out = open("private.pem", "wb")
+        file_out.write(private_key)
+        file_out.close()
 
-            public_key = key.publickey().export_key()
-            file_out = open("receiver.pem", "wb")
-            file_out.write(public_key)
-            # print(public_key)
+        public_key = key.publickey().export_key()
+        file_out = open("receiver.pem", "wb")
+        file_out.write(public_key)
+        file_out.close()
 
-            print(Style.BRIGHT + Fore.GREEN + "[✓]Keys generated!")
-        except:
-            print("[-] Keys not generated")
+        print(Style.BRIGHT + Fore.GREEN + "[✓]Keys generated!")
 
     def generate2():
         # init events
@@ -214,22 +237,16 @@ def generate():
         t1.join()
         t2.join()
 
-    while True:
-        try:
-            if os.path.getsize(dir_secKey) and os.path.getsize(dir_pubKey):
-                print("[*]Keys are here")
-                print(Style.BRIGHT + "Do you want to make new keys? ",
-                      Style.BRIGHT + Fore.GREEN + "Y",
-                      "/", Style.BRIGHT + Fore.RED + "N")
-                g = input()
-                if g == "Y":
-                    generate2()
-                    break
-                else:
-                    break
-        except FileNotFoundError:
+    if os.path.isfile(secKey) or os.path.isfile(pubKey):
+        print(Style.BRIGHT + "Do you want to make new keys? ",
+              Style.BRIGHT + Fore.GREEN + "Y",
+              "/", Style.BRIGHT + Fore.RED + "N")
+        g = input()
+        if g == "Y":
             generate2()
-            break
+
+    else:
+        generate2()
 
 
 def erase(size, dir1=src_dir):
@@ -243,35 +260,41 @@ def erase(size, dir1=src_dir):
 
 
 def delete_keys():
-    try:
-        clean1 = os.path.getsize(dir_secKey)
-        clean2 = os.path.getsize(dir_pubKey)
-        os.remove(dir_secKey)
-        erase(+clean1)
-        os.remove(dir_pubKey)
-        erase(+clean2)
-        print(Style.BRIGHT + Fore.GREEN + "[+]Keys deleted!")
-    except FileNotFoundError:
+    if os.path.isfile(secKey) or os.path.isfile(pubKey):
+        print(Style.BRIGHT + "Do you want to delete keys?",
+              Style.BRIGHT + Fore.GREEN + "Y",
+              "/", Style.BRIGHT + Fore.RED + "N")
+        g = input()
+        if g == "Y":
+            if os.path.isfile(secKey):
+                clean1 = os.path.getsize(secKey)
+                os.remove(secKey)
+                erase(+clean1)
+            if os.path.isfile(pubKey):
+                clean2 = os.path.getsize(pubKey)
+                os.remove(pubKey)
+                erase(+clean2)
+            print(Style.BRIGHT + Fore.GREEN + "[+]Keys deleted!")
+    else:
         print(Style.BRIGHT + Fore.RED + "[-]Error:", Style.BRIGHT + "No keys")
 
 
 def twofish_encrypt(test=0, data="", password=""):
-    try:
-        if test == 0:
-            data = input("Input Data (English only):\n")
+    if test == 0:
+        data = input("Input Data (English only):\n")
+
+    if data != "":
         twofish_encryption.test = data
         print("\n256 bit password will be generated if you enter nothing")
         if test == 0:
             password = input("Input Password:\n")
 
         if password == "":
-
             chars = \
                 "+-/]\*;:|!&$(#?={~@`<>" \
-                "_)}[abcdefghijklnopqrs" \
-                "tuvwxyzABCDEFGHIJKLMNO" \
-                "PQRSTUVWXYZ1234567890"
-
+                "_)}[abcdefghijklmnopqr" \
+                "stuvwxyzABCDEFGHIJKLMN" \
+                "OPQRSTUVWXYZ1234567890"
             password = ""
             for i in range(32):
                 password += random.choice(chars)
@@ -279,14 +302,13 @@ def twofish_encrypt(test=0, data="", password=""):
             twofish_encryption.key = password
         else:
             twofish_encryption.key = password
+
         twofish_encryption.start()
         twofish_encryption.encrypt()
         f = open(encrypt_data, "wb")
         pickle.dump(twofish_encryption.Cypher_text, f)
         f.close()
         print(Style.BRIGHT + "\n[✓]File with cypher text", Style.BRIGHT + Fore.GREEN + "saved")
-    except FileNotFoundError or NameError:
-        print(Style.BRIGHT + Fore.RED + "[-]Error:", Style.BRIGHT + "You selected an invalid folder")
 
 
 def twofish_decrypt(test=0, password=""):
@@ -296,11 +318,13 @@ def twofish_decrypt(test=0, password=""):
         f.close()
         if test == 0:
             password = input("Input Password:\n")
-        twofish_encryption.key = password
-        twofish_encryption.test = stored
-        twofish_encryption.start()
-        twofish_encryption.decrypt()
-        print(Style.BRIGHT + "[+]Data:\n", twofish_encryption.plain_text)
+
+        if password != "":
+            twofish_encryption.key = password
+            twofish_encryption.test = stored
+            twofish_encryption.start()
+            twofish_encryption.decrypt()
+            print(Style.BRIGHT + "[+]Data:\n", twofish_encryption.plain_text)
 
     except FileNotFoundError:
         print(Style.BRIGHT + Fore.RED + "[-]Error:", Style.BRIGHT + "No file to decrypt data!")
@@ -326,19 +350,52 @@ def update(status=1):
 
 
 def crypt2():
-    # startTime = datetime.now()
-    Crypt.walk(directory)
-    # endTime = datetime.now()
-    # print("Time: ", endTime - startTime)
-    # print("---------------------------------------------------------------")
+    try:
+        if os.path.isfile(secKey) and os.path.isfile(pubKey):
+            Crypt.walk(files)
+            for fle in files:
+                files[files.index(fle)] = fle + ".bin"
+        else:
+            print(Style.BRIGHT + Fore.RED + "[-]Error:", Style.BRIGHT + "Generate keys first")
+
+    except (NameError, IndexError):
+        if os.path.isfile(secKey) and os.path.isfile(pubKey):
+            if directory != "":
+                Crypt.walk(directory)
+        else:
+            print(Style.BRIGHT + Fore.RED + "[-]Error:", Style.BRIGHT + "Generate keys first")
 
 
 def decrypt2():
-    # startTime = datetime.now()
-    Decrypt.walk(directory)
-    # endTime = datetime.now()
-    # print("Time: ", endTime - startTime)
-    # print("---------------------------------------------------------------")
+    try:
+        if os.path.isfile(secKey) and os.path.isfile(pubKey):
+            Decrypt.walk(files)
+            for fle in files:
+                files[files.index(fle)] = fle[:-4]
+        else:
+            print(Style.BRIGHT + Fore.RED + "[-]Error:", Style.BRIGHT + "Generate keys first")
+
+    except (NameError, IndexError):
+        try:
+            if os.path.isfile(secKey) and os.path.isfile(pubKey):
+                if directory != "":
+                    Decrypt.walk(directory)
+                else:
+                    print(Style.BRIGHT + Fore.RED + "[-]Error:", Style.BRIGHT + "File without extension")
+            else:
+                print(Style.BRIGHT + Fore.RED + "[-]Error:", Style.BRIGHT + "Generate keys first")
+
+        except FileNotFoundError:
+            print(Style.BRIGHT + Fore.RED + "[-]Error:", Style.BRIGHT + "Generate keys first")
+
+        except Exception:
+            print(Style.BRIGHT + Fore.RED + "[-]Error:", Style.BRIGHT + "No files(.bin) to decrypt")
+
+    except ValueError:
+        print(Style.BRIGHT + Fore.RED + "[-]Error:", Style.BRIGHT + "File decrypted or corrupt")
+
+    except Exception:
+        print(Style.BRIGHT + Fore.RED + "[-]Error:", Style.BRIGHT + "No files(.bin) to decrypt")
 
 
 def testing():
@@ -354,53 +411,64 @@ def testing():
 
 class Crypt:
     def crypt1(file):
-        try:
-            f = open(file, "rb")
-            data = f.read()
-            f.close()
+        f = open(file, "rb")
+        data = f.read()
+        f.close()
 
-            file_out = open(str(file) + ".bin", "wb")
+        file_out = open(str(file) + ".bin", "wb")
 
-            recipient_key = RSA.import_key(open(dir_pubKey).read())
-            session_key = get_random_bytes(16)
+        recipient_key = RSA.import_key(open(pubKey).read())
+        session_key = get_random_bytes(16)
 
-            cipher_rsa = PKCS1_OAEP.new(recipient_key)
-            enc_session_key = cipher_rsa.encrypt(session_key)
+        cipher_rsa = PKCS1_OAEP.new(recipient_key)
+        enc_session_key = cipher_rsa.encrypt(session_key)
 
-            cipher_aes = AES.new(session_key, AES.MODE_EAX)
-            ciphertext, tag = cipher_aes.encrypt_and_digest(data)
+        cipher_aes = AES.new(session_key, AES.MODE_EAX)
+        ciphertext, tag = cipher_aes.encrypt_and_digest(data)
 
-            [file_out.write(x) for x in (enc_session_key, cipher_aes.nonce, tag, ciphertext)]
-            file_out.close()
-            print("[✓]" + file + Style.BRIGHT + Fore.GREEN + " ENCRYPT!")
-            folder_size = os.path.getsize(file)
-            os.remove(file)
+        [file_out.write(x) for x in (enc_session_key, cipher_aes.nonce, tag, ciphertext)]
+        file_out.close()
+        print("[✓]" + file + Style.BRIGHT + Fore.GREEN + " ENCRYPT!")
+        folder_size = os.path.getsize(file)
+        os.remove(file)
 
-            dir2 = cleanfile
-            erase(+folder_size, dir2)
-
-        except FileNotFoundError:
-            try:
-                if os.path.getsize(dir_secKey) and os.path.getsize(dir_pubKey):
-                    print(Style.BRIGHT + Fore.RED + "[-]Error:", Style.BRIGHT + "You selected an invalid folder")
-            except FileNotFoundError:
-                print(Style.BRIGHT + Fore.RED + "[-]Error:", Style.BRIGHT + "Generate keys first")
+        dir2 = cleanfile
+        erase(+folder_size, dir2)
 
     def walk(dir):
-        for name in os.listdir(dir):
-            path = os.path.join(dir, name)
-            if os.path.isfile(path):
+        if not os.path.isfile(dir[0]) and os.path.isdir(dir):
+            if not os.listdir(dir):
+                print(Style.BRIGHT + Fore.RED + "[-]Error:", Style.BRIGHT + "File not found")
+            for name in os.listdir(dir):
+                path = os.path.join(dir, name)
                 Crypt.crypt1(path)
-            else:
-                walk(path)
+        else:
+            for name in dir:
+                path = os.path.join(directory, name)
+                if os.path.isfile(path):
+                    Crypt.crypt1(path)
+                else:
+                    try:
+                        Crypt.crypt1(path + ".bin")
+                        break
+                    except FileNotFoundError:
+                        pass
+
+                    try:
+                        Crypt.crypt1(path[:-4])
+                        break
+                    except FileNotFoundError:
+                        print(Style.BRIGHT + Fore.RED + "[-]Error:", Style.BRIGHT + "File not found")
 
 
 class Decrypt:
     def decrypt1(file):
-        try:
+        if not str(file[-4:]) == ".bin":
+            raise Exception
+        else:
             file_in = open(file, "rb")
             file_out = open(str(file[:-4]), "wb")
-            private_key = RSA.import_key(open(dir_secKey).read())
+            private_key = RSA.import_key(open(secKey).read())
 
             enc_session_key, nonce, tag, ciphertext = \
                 [file_in.read(x) for x in (private_key.size_in_bytes(), 16, 16, -1)]
@@ -416,23 +484,33 @@ class Decrypt:
             file_out.close()
             os.remove(file)
 
-        except FileNotFoundError:
-            try:
-                if os.path.getsize(dir_secKey) and os.path.getsize(dir_pubKey):
-                    print(Style.BRIGHT + Fore.RED + "[-]Error:", Style.BRIGHT + "You selected an invalid folder /\n"
-                                                                                "File without extension")
-            except FileNotFoundError:
-                print(Style.BRIGHT + Fore.RED + "[-]Error:", Style.BRIGHT + "Generate keys first")
-        except ValueError:
-            print(Style.BRIGHT + Fore.RED + "[-]Error:", Style.BRIGHT + "File decrypted or corrupt")
-
     def walk(dir):
-        for name in os.listdir(dir):
-            path = os.path.join(dir, name)
-            if os.path.isfile(path):
+        if dir is False:
+            raise FileNotFoundError
+        if not os.path.isfile(dir[0]) and os.path.isdir(dir):
+            if not os.listdir(dir):
+                print(Style.BRIGHT + Fore.RED + "[-]Error:", Style.BRIGHT + "File not found")
+            for name in os.listdir(dir):
+                path = os.path.join(dir, name)
                 Decrypt.decrypt1(path)
-            else:
-                walk(path)
+
+        else:
+            for name in dir:
+                path = os.path.join(directory, name)
+                if os.path.isfile(path):
+                    Decrypt.decrypt1(path)
+                else:
+                    try:
+                        Decrypt.decrypt1(path + ".bin")
+                        break
+                    except FileNotFoundError:
+                        pass
+
+                    try:
+                        Decrypt.decrypt1(path[:-4])
+                        break
+                    except FileNotFoundError:
+                        print("[-]Error: File not found")
 
 
 if args.generate:

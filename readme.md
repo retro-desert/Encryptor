@@ -3,8 +3,6 @@
 ![Latest Stable Version](https://img.shields.io/github/v/release/retro-desert/Encryptor?color=success)
 ![License](https://img.shields.io/github/license/retro-desert/Encryptor?color=informational)
 ![Activity](https://img.shields.io/github/commit-activity/m/retro-desert/Encryptor?color=yellow)
-[![CII Best 
-Practices](https://bestpractices.coreinfrastructure.org/projects/3750/badge)](https://bestpractices.coreinfrastructure.org/projects/3750)
 [![Build Status](https://travis-ci.org/retro-desert/Encryptor.svg?branch=master)](https://travis-ci.org/retro-desert/Encryptor)
 
 This script is created so that everyone can encrypt files.
@@ -55,4 +53,4 @@ TRON
 
 ## Reporting a Vulnerability
 
-If you find a bug, then create discussions in the **"Issues"** section. If the bug is very serious, then email me at **iljaaz@yandex.ru** **PGP: 502b 51e0** marked **"Bug report"**
+If you find a bug, then create discussions in the **"Issues"** section.

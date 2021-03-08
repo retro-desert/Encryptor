@@ -2,6 +2,13 @@ This is patch notes, the latest version of the program and innovations is writte
 
  | PATCH NOTE |
 
+  Version 1.990 FINAL (08.03.2021)
+   Note: It can be the last update, since I no longer have ideas for implementation
+   -Added the ability to select individual files
+   -Reworked interface (GUI)
+   -Many handling errors
+   -Improved stability
+
   Version 1.935 SE (09.10.2020)
    -Special Edition for Halloween
    -Some handling errors
