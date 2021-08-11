@@ -31,13 +31,13 @@ python3 encryptor_CMD.py -P /home/admin/test
 Please, support me)
 
 ETH
-**0xe74c021d2ccd5439c235e6dd5adbf6f117cf49f8**
+**0x74c0BD6EFA9a4e608286F2237C98CCf599409fb5**
 
 DASH
-**XmiMHnr7fBPvyAVYtqHUR3F2gxbA7qasJD**
+**XnUxiFxPU6FumyWeLVVB1FHPhirpkLxyec**
 
 TRON
-**TVH67yTgvFMTbLBxJqNzoRLN4LWjqquobB**
+**TN3MsAySRMNGKU8uvQJiytaeGWggbvSFuz**
 
 # Security Policy
 
