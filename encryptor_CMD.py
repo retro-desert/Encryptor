@@ -26,9 +26,9 @@ elif platform == "win32":
 
 while True:
     try:
-        from Crypto.PublicKey import RSA
-        from Crypto.Random import get_random_bytes
-        from Crypto.Cipher import AES, PKCS1_OAEP
+        from Cryptodome.PublicKey import RSA
+        from Cryptodome.Random import get_random_bytes
+        from Cryptodome.Cipher import AES, PKCS1_OAEP
         import requests
         from colorama import Style, Back, Fore
         from colorama import init
